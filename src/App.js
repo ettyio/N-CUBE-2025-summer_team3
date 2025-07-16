@@ -10,6 +10,7 @@ function App() {
     <div className="app-container">
       <Header/>
       <MainSection/>
+      <FixedButton/>
       <Footer/>
     </div>
   );
