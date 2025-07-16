@@ -11,6 +11,13 @@
   height: 45px;
 }
 
+
+.nav-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* 메뉴와 버튼 간 간격 */
+}
+
 .nav-menu {
   display: flex;
   gap: 15px;
