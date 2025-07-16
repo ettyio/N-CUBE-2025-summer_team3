@@ -1,0 +1,18 @@
+.footer {
+  padding: 24px 16px;
+  margin-top: 0; /* 또는 아주 작게 */
+  background-color: #eee;
+  text-align: center;
+  color: #444;
+}
+
+
+
+.footer-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.footer-desc {
+  font-style: italic;
+}
