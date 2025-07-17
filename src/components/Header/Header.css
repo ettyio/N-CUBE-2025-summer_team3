@@ -1,0 +1,75 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #ffffff;
+}
+
+.logo img {
+  height: 45px;
+}
+
+
+.nav-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* 메뉴와 버튼 간 간격 */
+}
+
+.nav-menu {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+}
+
+.write-button {
+  background-color: #f4f4f4;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-weight: 500;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.write-button:hover {
+  background-color: #eaeaea;
+  color: #000;
+}
+
+.nav-menu a {
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.nav-menu a:hover {
+  color: #000;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-buttons button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-buttons .login-btn {
+  background-color: #f0f0f0;
+}
+
+.auth-buttons .signup-btn {
+  background-color: #000;
+  color: #fff;
+}
+
