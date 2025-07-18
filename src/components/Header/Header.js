@@ -20,7 +20,7 @@ const NavMenu = () => (
 
 const AuthButtons = () => (
   <div className="auth-buttons">
-    <Link to=" /LoginPage">
+    <Link to="/login">
       <button className="login-btn">로그인</button>
     </Link>
       <button className="signup-btn">회원가입</button>
