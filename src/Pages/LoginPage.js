@@ -2,13 +2,6 @@ import React, { useState } from 'react';
 import '../PageStyles/LoginPage.css';
 
 const LoginPage = () => {
-  const [id, setId] = useState('');
-  const [pw, setPw] = useState('');
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log('ID:', id, 'PW:', pw); // 추후 API 연결 예정
-  };
 
   return (
     <div className="login-container">
