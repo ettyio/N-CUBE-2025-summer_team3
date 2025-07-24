@@ -1,6 +1,7 @@
 // components/Header/Header.js
 import React from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 const Logo = () => (
   <div className="logo">
@@ -19,8 +20,10 @@ const NavMenu = () => (
 
 const AuthButtons = () => (
   <div className="auth-buttons">
-    <button className="login-btn">로그인</button>
-    <button className="signup-btn">회원가입</button>
+    <Link to="/login">
+      <button className="login-btn">로그인</button>
+    </Link>
+      <button className="signup-btn">회원가입</button>
   </div>
 );
 
