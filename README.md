@@ -1,70 +1,46 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### ✅ 프로젝트 개요
+> **N-CUBE 2025 여름 팀 프로젝트**
+> 프론트엔드: React 기반 UI 개발 진행 중 (백엔드 API 연동은 추후 예정)
+---
 
-## Available Scripts
+### 🛠️ 개발을 돕기 위한 개발 환경 세팅 방법
 
-In the project directory, you can run:
+1. **GitHub에서 클론하기**
 
-### `npm start`
+```bash
+git clone https://github.com/사용자명/저장소명.git
+cd 저장소명
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Node.js 설치** (이건 다 되어있겠지?)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **의존성 설치**
 
-### `npm test`
+```bash
+npm install (npm install 명령어는 프로젝트에서 필요한 **모든 라이브러리(패키지)**를 package.json 파일 기준으로 자동 설치해 주는 명령어.)
+npm install firebase (firebase와 연동하려면 설치해야 함)
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. **개발 서버 실행**
 
-### `npm run build`
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+→ 브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 📁 주요 디렉토리 구조 (현재)
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+src/
+├── components/   # 공통 컴포넌트
+├── context/      # 인증 상태 관리 컴포넌트 (Firebase Authentication와 함께 사용)
+├── Pages/        # 페이지
+├── PageStyles/   # 페이지 css
+├── App.js        # 루트 컴포넌트
+├── index.js      # 앱 진입점
+├── App.css       # 전역 스타일
+```
