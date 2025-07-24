@@ -1,7 +1,8 @@
 // components/Header/Header.js
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Logo = () => (
   <div className="logo">
@@ -18,14 +19,31 @@ const NavMenu = () => (
   </nav>
 );
 
-const AuthButtons = () => (
-  <div className="auth-buttons">
-    <Link to="/login">
-      <button className="login-btn">로그인</button>
-    </Link>
-      <button className="signup-btn">회원가입</button>
-  </div>
-);
+const AuthButtons = () => {
+  const { user, logout } = useAuth();
+
+  return (
+    <div className="auth-buttons">
+      {user ? (
+        <>
+          <Link to="/mypage">
+            <button className="mypage-btn">마이페이지</button>
+          </Link>
+          <button className="logout-btn" onClick={logout}>로그아웃</button>
+        </>
+      ) : (
+        <>
+          <Link to="/login">
+            <button className="login-btn">로그인</button>
+          </Link>
+          <Link to="/signup">
+            <button className="signup-btn">회원가입</button>
+          </Link>
+        </>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   return (
