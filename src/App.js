@@ -6,6 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Header from './components/Header/Header.js';
 import LoginPage from './Pages/LoginPage';
 import FirstPage from './Pages/FirstPage';
+import AdminPage from './Pages/AdminPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FirstPage user={user} />} />         {/* 첫화면 */}
         <Route path="/login" element={<LoginPage />} />   {/* 로그인 */}
+        <Route path="/admin" element={<AdminPage />} />   {/* 관리자 */}
       </Routes>
     </Router>
   );
