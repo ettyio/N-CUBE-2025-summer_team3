@@ -5,6 +5,7 @@ import Footer from '../components/Footer/Footer';
 import FixedButton from '../components/FixedButton/FixedButton';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import '../PageStyles/FirstPage.css';
 
 function FirstPage() {
   const [user, setUser] = useState(null);
@@ -18,7 +19,7 @@ function FirstPage() {
   }, []);
 
   return (
-    <div className="app-container">
+    <div className="page-layout">
       {/* <Header user={user} /> App.js에서 이미 렌더링해서 제거 */}
       <MainSection user={user} />
       <FixedButton user={user} />

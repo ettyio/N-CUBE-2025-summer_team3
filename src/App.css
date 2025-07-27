@@ -1,46 +1,43 @@
-.App {
+/* 기본 레이아웃 조정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f5f6f7;
+}
+
+/* 공통 스타일 (버튼 등) */
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 입력창 */
+input[type="email"] {
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 중앙 컨텐츠 wrapper */
+.main-content {
   text-align: center;
+  padding: 60px 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.footer {
+  background-color: #e6e6e6;
+  text-align: center;
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* 헤더 버튼 영역 */
+.header-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* 화면 높이 전부 채우기 */
-}
-
 
