@@ -7,6 +7,7 @@ import Header from './components/Header/Header.js';
 import LoginPage from './Pages/LoginPage';
 import FirstPage from './Pages/FirstPage';
 import AdminPage from './Pages/AdminPage';
+import CreatePage from './Pages/CreatePage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,9 +26,11 @@ function App() {
         <Route path="/" element={<FirstPage user={user} />} />         {/* 첫화면 */}
         <Route path="/login" element={<LoginPage />} />   {/* 로그인 */}
         <Route path="/admin" element={<AdminPage />} />   {/* 관리자 */}
+        <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
