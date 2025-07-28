@@ -1,18 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import '../PageStyles/AdminPage.css';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import Header from '../components/Header/Header.js';
+import { doc, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        const checkAdmin = async () => {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+            const role = userDoc.data()?.role;
+            if (role === 'admin') {
+              setUser(currentUser);
+            } else {
+              navigate('/');
+            }
+          } catch (error) {
+            console.error('Error checking admin role:', error);
+            navigate('/');
+          }
+        };
+        checkAdmin();
+      } else {
+        navigate('/login');
+      }
     });
+
     return () => unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const features = [
     { title: '사용자', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia porttitor arcu in vehicula.' },
