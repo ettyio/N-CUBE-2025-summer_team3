@@ -20,6 +20,7 @@ cd 저장소명
 ```bash
 npm install (npm install 명령어는 프로젝트에서 필요한 **모든 라이브러리(패키지)**를 package.json 파일 기준으로 자동 설치해 주는 명령어.)
 npm install firebase (firebase와 연동하려면 설치해야 함)
+npm install firebase uuid
 ```
 
 4. **개발 서버 실행**
