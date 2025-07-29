@@ -4,7 +4,7 @@ import Slider from './Slider';
 
 const Sidebar = () => {
    
-    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [priceRange, setPriceRange] = useState([1000, 5000]);
 
     return (
         <div className="sidebar">

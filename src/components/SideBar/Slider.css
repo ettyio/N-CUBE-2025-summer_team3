@@ -25,7 +25,7 @@
 .thumb {
   height: 16px;
   width: 16px;
-  background-color: #000;
+  background-color: bisque;
   border-radius: 50%;
   cursor: grab;
   top: -5px;
