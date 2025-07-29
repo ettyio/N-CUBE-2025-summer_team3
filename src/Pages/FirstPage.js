@@ -22,7 +22,6 @@ function FirstPage() {
     <div className="page-layout">
       {/* <Header user={user} /> App.js에서 이미 렌더링해서 제거 */}
       <MainSection user={user} />
-      <FixedButton user={user} />
       <Footer />
     </div>
   );

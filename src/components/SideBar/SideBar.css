@@ -1,0 +1,23 @@
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.sidebar-section {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
