@@ -1,0 +1,7 @@
+
+.mainpage-layout {
+  display: flex;
+  min-height: calc(100vh - 80px); /* 헤더 제외한 전체 화면 */
+  padding: 20px;
+  box-sizing: border-box;
+}

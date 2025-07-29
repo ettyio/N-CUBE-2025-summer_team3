@@ -10,6 +10,7 @@ import LoginPage from './Pages/LoginPage';
 import FirstPage from './Pages/FirstPage';
 import AdminPage from './Pages/AdminPage';
 import CreatePage from './Pages/CreatePage';
+import MainPage from './Pages/MainPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,6 +56,7 @@ function App() {
             user && role === 'admin' ? <AdminPage /> : <Navigate to="/login" />   
           }
         />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
       </Routes>
     </Router>
