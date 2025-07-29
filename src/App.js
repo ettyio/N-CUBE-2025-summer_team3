@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { auth, db } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -49,7 +49,12 @@ function App() {
       <Routes>
         <Route path="/" element={<FirstPage user={user} />} />         {/* 첫화면 */}
         <Route path="/login" element={<LoginPage />} />   {/* 로그인 */}
-        <Route path="/admin" element={<AdminPage />} />   {/* 관리자 */}
+        {/* 관리자 */}
+        <Route path="/admin" 
+          element={
+            user && role === 'admin' ? <AdminPage /> : <Navigate to="/login" />   
+          }
+        />
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
       </Routes>
     </Router>
