@@ -1,17 +1,18 @@
-/* components/Sidebar/Sidebar.css */
 .sidebar {
   width: 240px;
   padding: 20px;
   background-color: #ffffff;
-  border: 1px solid #000000; /* 검정 테두리 */
-  border-radius: 8px;
+  border: 1px solid #000000;
+  border-radius: 10px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
+
 .filter-group {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
+
 
 .filter-title {
   font-weight: bold;
@@ -20,27 +21,55 @@
   color: #000000;
 }
 
-.checkbox-group {
+
+.tag-box {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.price-range {
+.tag-item {
+  background-color: #f5f5f5;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #000;
+}
+
+.tag-item .remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+.category-checkboxes {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+
+.price-slider-wrapper {
+  margin-top: 8px;
 }
 
 .price-label {
-  font-weight: 600;
+  font-weight: bold;
   font-size: 14px;
-  color: #000000;
+  color: #000;
+  margin-bottom: 6px;
 }
 
 select {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }

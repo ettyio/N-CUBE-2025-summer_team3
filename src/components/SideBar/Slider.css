@@ -1,0 +1,33 @@
+.price-slider-wrapper {
+  margin-top: 8px;
+}
+
+.price-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.price-slider {
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  position: relative;
+}
+
+.track {
+  background: #000;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.thumb {
+  height: 16px;
+  width: 16px;
+  background-color: #000;
+  border-radius: 50%;
+  cursor: grab;
+  top: -5px;
+  position: relative;
+}
