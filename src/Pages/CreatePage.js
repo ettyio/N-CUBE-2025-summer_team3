@@ -28,22 +28,6 @@ const handleImageChange = async (e) => {
   }
 };
 
-  setDropdowns((prev) => {
-    const updated = { ...prev, [type]: value };
-
-    if (type === 'category') {
-      updated.department = '';
-      updated.subject = '';
-      updated.professor = '';
-    } else if (type === 'department') {
-      updated.subject = '';
-      updated.professor = '';
-    } else if (type === 'subject') {
-      updated.professor = '';
-    }
-
-    return updated;
-  });
 const handleSubmit = async () => {
   if (!title || !description || !image) {
     alert('제목, 설명, 이미지가 필요합니다.');
@@ -75,6 +59,25 @@ const handleSubmit = async () => {
     console.error('등록 실패:', error);
     alert('게시글 등록 중 오류가 발생했습니다.');
   }
+};
+
+const handleDropdownChange = (type, value) => {
+  setDropdowns((prev) => {
+    const updated = { ...prev, [type]: value };
+
+    if (type === 'category') {
+      updated.department = '';
+      updated.subject = '';
+      updated.professor = '';
+    } else if (type === 'department') {
+      updated.subject = '';
+      updated.professor = '';
+    } else if (type === 'subject') {
+      updated.professor = '';
+    }
+
+    return updated;
+  });
 };
 
 const dropdownOptions = {
@@ -180,34 +183,38 @@ const dropdownOptions = {
       '이공계열']
   },
   subject: {
-    'AI데이터융합전공':[빅데이터분석기초,
-      인공지능프로그래밍,
-      객체지향프로그래밍,
-      딥러닝기초,
-      빅데이터모델링,
-      자연어처리기초,
-      컴퓨터비전
+    'AI데이터융합전공':[
+      "빅데이터분석기초",
+      "인공지능프로그래밍",
+      "객체지향프로그래밍",
+      "딥러닝기초",
+      "빅데이터모델링",
+      "자연어처리기초",
+      "컴퓨터비전"
     ],
-    'AI융합전공(Software&AI)':[컴퓨터구조,
-      기계학습,
-      데이터베이스,
-      소프트웨어공학,
-      컴퓨터네크워크,
-      빅데이터,
-      정보보안
+    'AI융합전공(Software&AI)':[
+      "컴퓨터구조",
+      "기계학습",
+      "데이터베이스",
+      "소프트웨어공학",
+      "컴퓨터네크워크",
+      "빅데이터",
+      "정보보안"
     ],
-      'Business & AI 전공':[자료구조,
-        AI마케팅,
-        비즈니스딥러닝,
-        비즈니스머신러닝이론및실습
+      'Business & AI 전공':[
+        "자료구조",
+        "AI마케팅",
+        "비즈니스딥러닝",
+        "비즈니스머신러닝이론및실습"
       ],
-      'Finance & AI융합전공':[고급인공지능수학,
-        금융시계열분석,
-        이산수학,
-        중급파이썬프로그래밍,
-        딥러닝머신러닝,
-        투자론과최적화,
-        컨벡스최적화
+      'Finance & AI융합전공':[
+        "고급인공지능수학",
+        "금융시계열분석",
+        "이산수학",
+        "중급파이썬프로그래밍",
+        "딥러닝머신러닝",
+        "투자론과최적화",
+        "컨벡스최적화"
       ],
       'Global Business & Technology전공':[],
       'ICT&AI세부모듈':[],
