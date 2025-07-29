@@ -1,12 +1,14 @@
 // components/Header/Header.js
-import React, { useState } from 'react';
+import React from 'react';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Logo = () => (
   <div className="logo">
-    <img src="/logo.png" alt="Logo" />
+    <Link to="/">
+      <img src="/logo.png" alt="Logo" />
+    </Link>
   </div>
 );
 
@@ -20,16 +22,27 @@ const NavMenu = () => (
 );
 
 const AuthButtons = () => {
-  const { user, logout } = useAuth();
+  const { user, role, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleMyPage = () => {
+    if (role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/mypage');
+    }
+  };
 
   return (
     <div className="auth-buttons">
       {user ? (
         <>
-          <Link to="/mypage">
-            <button className="mypage-btn">마이페이지</button>
-          </Link>
-          <button className="logout-btn" onClick={logout}>로그아웃</button>
+          <button className="mypage-btn" onClick={handleMyPage}>
+            {role === 'admin' ? '관리자페이지' : '마이페이지'}
+          </button>
+          <button className="logout-btn" onClick={logout}>
+            로그아웃
+          </button>
         </>
       ) : (
         <>
