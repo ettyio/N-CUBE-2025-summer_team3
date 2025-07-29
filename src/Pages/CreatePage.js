@@ -17,14 +17,19 @@ const CreatePage = () => {
   });
 
 
-const handleImageChange = async (e) => {
+const handleImageChange = (e) => {
   const file = e.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImage(reader.result); // base64 문자열 저장
+      const base64Image = reader.result;
+      if (file.size > 1 * 1024 * 1024) { // 1MB 제한
+        alert("이미지가 너무 큽니다. 더 작은 파일을 선택해주세요.");
+        return;
+      }
+      setImage(base64Image);
     };
-    reader.readAsDataURL(file); // base64 인코딩
+    reader.readAsDataURL(file);
   }
 };
 
@@ -43,6 +48,7 @@ const handleSubmit = async () => {
       ...dropdowns,
       createdAt: Timestamp.now(),
     });
+    console.log('등록 성공!');
     alert('게시글이 등록되었습니다!');
     // 초기화
     setTitle('');
@@ -57,7 +63,9 @@ const handleSubmit = async () => {
     });
   } catch (error) {
     console.error('등록 실패:', error);
-    alert('게시글 등록 중 오류가 발생했습니다.');
+    alert(
+      '로그인 상태가 아니거나, 게시글 등록 중 오류가 발생했습니다.'
+    );
   }
 };
 
@@ -372,10 +380,10 @@ const dropdownOptions = {
       '이공계열':[]
   },
   professor: {
-    자료구조: ['김성복'],
+    자료구조: ['신찬수'],
     운영체제: ['이철수'],
     열역학: ['박영희'],
-    회로이론: ['김성복'],
+    선형대수: ['김성복'],
     취업역량강화: ['HR담당교수'],
     AI개론: ['AI전문가']
   }
