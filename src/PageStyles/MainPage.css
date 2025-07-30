@@ -1,0 +1,46 @@
+.mainpage-layout {
+  display: flex;
+  gap: 24px;
+  padding: 32px;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-buttons button {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sort-buttons .active {
+  border: 1px solid black;
+  border-radius: 12px;
+  padding: 4px 10px;
+  color: black;
+  font-weight: bold;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ← 2열 고정 */
+  gap: 24px;
+}
+
