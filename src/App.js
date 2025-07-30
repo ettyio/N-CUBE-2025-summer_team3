@@ -11,6 +11,7 @@ import FirstPage from './Pages/FirstPage';
 import AdminPage from './Pages/AdminPage';
 import CreatePage from './Pages/CreatePage';
 import MainPage from './Pages/MainPage';
+import DetailPage from './Pages/DetailPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -58,6 +59,7 @@ function App() {
         />
         <Route path="/main" element={<MainPage />} />
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
+        <Route path="/test-detail" element={<DetailPage />} />
       </Routes>
     </Router>
   );
