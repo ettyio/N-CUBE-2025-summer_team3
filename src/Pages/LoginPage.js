@@ -20,8 +20,7 @@ const LoginPage = () => {
     try {
       await signInWithEmailAndPassword(auth, id, pw);
       console.log('로그인 성공!');
-      navigate('/');
-      // 로그인 성공 시 추가 동작
+      navigate('/main');
     } catch (error) {
       console.error(error);
       setErrorMsg("로그인에 실패했습니다: " + error.message);
