@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import './SideBar.css';
 import Slider from './Slider';
 
-const Sidebar = () => {
-   
-    const [priceRange, setPriceRange] = useState([1000, 5000]);
-
+const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRange }) => {
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      onCategoryChange([value]);
+    } else {
+       onCategoryChange([]);
+    }
+  }
     return (
         <div className="sidebar">
         <div className="filter-group">
@@ -17,13 +22,20 @@ const Sidebar = () => {
             </div>
         </div>
 
-
         <div className="filter-group">
             <h3 className="filter-title">분류</h3>
             <div className="category-checkboxes">
-                <label><input type="checkbox" /> 기초</label>
-                <label><input type="checkbox" /> 교양</label>
-                <label><input type="checkbox" /> 전공</label>
+             {['기초', '교양', '전공'].map((cat) => (
+             <label key={cat}>
+               <input
+                    type="checkbox"
+                    value={cat}
+                    checked={selectedCategories.includes(cat)}
+                    onChange={handleCheckboxChange}
+                />
+                {cat}
+            </label>
+             ))}
             </div>
         </div>
 

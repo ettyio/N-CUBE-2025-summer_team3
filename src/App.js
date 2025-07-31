@@ -66,6 +66,10 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
         <Route path="/detail" element={<DetailPage />} />    {/* 자료디테일 */}
         <Route path="/chat" element={<ChatHomePage />} />    {/* 채팅 홈 */}
+        <Route path="/" element={<MainPage />} />
+        <Route path="/basic" element={<MainPage />} />
+        <Route path="/liberal" element={<MainPage />} />
+        <Route path="/major" element={<MainPage />} />
       </Routes>
     </Router>
   );

@@ -6,25 +6,27 @@ import { FaSearch } from 'react-icons/fa'; // 아이콘 사용
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSearch(query);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value);
   };
 
-  return (
-    <form className="search-bar-container" onSubmit={handleSubmit}>
+ return (
+    <div className="search-bar-container">
       <input
         type="text"
         className="search-input"
         placeholder="Search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleChange}
       />
-      <button type="submit" className="search-icon-button">
+      <button className="search-icon-button">
         <FaSearch />
       </button>
-    </form>
+    </div>
   );
 };
 
 export default SearchBar;
+

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useLocation } from 'react-router-dom'; 
 
 import Header from '../components/Header/Header.js';
 import SideBar from '../components/SideBar/SideBar.js';
@@ -11,40 +12,60 @@ import '../PageStyles/MainPage.css';
 
 
 const MainPage = () => {
+  const location = useLocation(); 
+  const [initializedFromURL, setInitializedFromURL] = useState(false); 
   const [query, setQuery] = useState('');
   const [posts, setPosts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
 
   const handleSearch = (text) => {
-    setQuery(text);
-    console.log("검색어:", text);
-    //  나중에 카드 필터링 로직과 연결 가능
-  };
-  
+  setQuery(text);
+  console.log("검색어:", text);
+};
   
   useEffect(() => {
-      const fetchPosts = async () => {
-        try {
-          const snapshot = await getDocs(collection(db, 'posts'));
-         const data = snapshot.docs.map(doc => ({
-           id: doc.id,
-            ...doc.data()
-         }));
-         setPosts(data);
-        } catch (error) {
-         console.error("게시글 불러오기 오류:", error);
-       }
-      };
-      fetchPosts();
-    }, []);
+    const fetchPosts = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'posts'));
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPosts(data);
+      } catch (error) {
+        console.error("게시글 불러오기 오류:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === '/basic') setSelectedCategories(['기초']);
+    else if (location.pathname === '/liberal') setSelectedCategories(['교양']);
+    else if (location.pathname === '/major') setSelectedCategories(['전공']);
+    else setSelectedCategories([]);
+  }, [location.pathname]);
+    
  
   
-  const filteredPosts = posts.filter(post =>
-    post.title.toLowerCase().includes(query.toLowerCase())
-  );
+   const filteredPosts = posts.filter(post => {
+    const matchQuery = post.title.toLowerCase().includes(query.toLowerCase());
+    const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category);
+    const matchPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
+    return matchQuery && matchCategory && matchPrice;
+  });
+
 
   return (
     <div className="mainpage-layout">
-      <SideBar />
+     <SideBar
+        selectedCategories={selectedCategories}
+        onCategoryChange={setSelectedCategories}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+      />
 
       <div className="main-content">
         <div className="main-header">
