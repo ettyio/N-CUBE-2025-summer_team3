@@ -11,6 +11,7 @@ import FirstPage from './Pages/FirstPage';
 import AdminPage from './Pages/AdminPage';
 import CreatePage from './Pages/CreatePage';
 import MainPage from './Pages/MainPage';
+import DetailPage from './Pages/DetailPage';
 import SignupPage from './Pages/SignupPage.js';
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
         />
         <Route path="/main" element={<MainPage />} /> {/* 메인 */}
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
+        <Route path="/test-detail" element={<DetailPage />} />
       </Routes>
     </Router>
   );
