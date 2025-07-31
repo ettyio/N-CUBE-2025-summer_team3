@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import './SideBar.css';
 import Slider from './Slider';
 
-const Sidebar = () => {
-   
-    const [priceRange, setPriceRange] = useState([1000, 5000]);
+const Sidebar = ({ priceRange, setPriceRange }) => {
+
 
     return (
         <div className="sidebar">
