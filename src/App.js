@@ -14,6 +14,7 @@ import MainPage from './Pages/MainPage';
 import MyPage from './Pages/MyPage';
 import DetailPage from './Pages/DetailPage';
 import SignupPage from './Pages/SignupPage.js';
+import ChatHomePage from './Pages/ChatHomePage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -64,6 +65,7 @@ function App() {
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
         <Route path="/detail" element={<DetailPage />} />    {/* 자료디테일 */}
+        <Route path="/chat" element={<ChatHomePage />} />    {/* 채팅 홈 */}
       </Routes>
     </Router>
   );
