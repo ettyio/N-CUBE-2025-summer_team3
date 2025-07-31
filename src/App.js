@@ -63,7 +63,7 @@ function App() {
         <Route path="/main" element={<MainPage />} /> {/* 메인 */}
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
-        <Route path="/test-detail" element={<DetailPage />} />
+        <Route path="/detail" element={<DetailPage />} />    {/* 자료디테일 */}
       </Routes>
     </Router>
   );
