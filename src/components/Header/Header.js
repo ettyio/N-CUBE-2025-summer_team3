@@ -12,14 +12,28 @@ const Logo = () => (
   </div>
 );
 
-const NavMenu = () => (
-  <nav className="nav-menu">
-     <a href="/new" className="write-button">새글쓰기</a>
-     <a href="/basic">기초</a>
-     <a href="/liberal">교양</a>
-     <a href="/major">전공</a>
-  </nav>
-);
+const NavMenu = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth(); 
+
+  const handleNavClick = (path) => {
+    if (user) {
+      navigate(path);        
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate('/login');    
+    }
+  };
+  
+  return(
+   <nav className="nav-menu">
+     <Link to="/new" className="write-button">새글쓰기</Link>
+     <button type="button" onClick={() => handleNavClick('/basic')}>기초</button>
+     <button type="button" onClick={() => handleNavClick('/liberal')}>교양</button>
+     <button type="button" onClick={() => handleNavClick('/major')}>전공</button>
+   </nav>
+ );
+};
 
 const AuthButtons = () => {
   const { user, role, logout } = useAuth();

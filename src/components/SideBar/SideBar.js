@@ -6,9 +6,9 @@ const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRan
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
-      onCategoryChange([...selectedCategories, value]);
+      onCategoryChange([value]);
     } else {
-      onCategoryChange(selectedCategories.filter((v) => v !== value));
+       onCategoryChange([]);
     }
   }
     return (

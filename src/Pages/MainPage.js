@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useLocation } from 'react-router-dom'; 
 
 import Header from '../components/Header/Header.js';
 import SideBar from '../components/SideBar/SideBar.js';
@@ -11,6 +12,8 @@ import '../PageStyles/MainPage.css';
 
 
 const MainPage = () => {
+  const location = useLocation(); 
+  const [initializedFromURL, setInitializedFromURL] = useState(false); 
   const [query, setQuery] = useState('');
   const [posts, setPosts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -22,20 +25,29 @@ const MainPage = () => {
 };
   
   useEffect(() => {
-      const fetchPosts = async () => {
-        try {
-          const snapshot = await getDocs(collection(db, 'posts'));
-         const data = snapshot.docs.map(doc => ({
-           id: doc.id,
-            ...doc.data()
-         }));
-         setPosts(data);
-        } catch (error) {
-         console.error("게시글 불러오기 오류:", error);
-       }
-      };
-      fetchPosts();
-    }, []);
+    const fetchPosts = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'posts'));
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPosts(data);
+      } catch (error) {
+        console.error("게시글 불러오기 오류:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === '/basic') setSelectedCategories(['기초']);
+    else if (location.pathname === '/liberal') setSelectedCategories(['교양']);
+    else if (location.pathname === '/major') setSelectedCategories(['전공']);
+    else setSelectedCategories([]);
+  }, [location.pathname]);
+    
  
   
    const filteredPosts = posts.filter(post => {
