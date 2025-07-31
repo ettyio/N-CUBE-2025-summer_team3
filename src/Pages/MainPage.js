@@ -13,6 +13,7 @@ import '../PageStyles/MainPage.css';
 const MainPage = () => {
   const [query, setQuery] = useState('');
   const [posts, setPosts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
   const handleSearch = (text) => {
@@ -37,19 +38,22 @@ const MainPage = () => {
     }, []);
  
   
-  const filteredPosts = posts.filter(post => {
-  const lowerTitle = post.title?.toLowerCase() || '';
-  const lowerDesc = post.description?.toLowerCase() || '';
-  const matchesSearch = lowerTitle.includes(query.toLowerCase()) || lowerDesc.includes(query.toLowerCase());
-  const matchesPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
-  return matchesSearch && matchesPrice;
-});
+   const filteredPosts = posts.filter(post => {
+    const matchQuery = post.title.toLowerCase().includes(query.toLowerCase());
+    const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category);
+    const matchPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
+    return matchQuery && matchCategory && matchPrice;
+  });
 
 
   return (
     <div className="mainpage-layout">
-      <SideBar priceRange={priceRange} setPriceRange={setPriceRange} />
-
+     <SideBar
+        selectedCategories={selectedCategories}
+        onCategoryChange={setSelectedCategories}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+      />
 
       <div className="main-content">
         <div className="main-header">
