@@ -1,0 +1,18 @@
+/*ChatHomePage.css*/
+.chat-home-container {
+  padding: 32px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.chat-list {
+  list-style: none;
+  padding: 0;
+}
+
+.chat-item {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background-color: #f9f9f9;
+}
