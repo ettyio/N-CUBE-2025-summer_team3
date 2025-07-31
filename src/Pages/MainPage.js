@@ -15,11 +15,9 @@ const MainPage = () => {
   const [posts, setPosts] = useState([]);
 
   const handleSearch = (text) => {
-    setQuery(text);
-    console.log("검색어:", text);
-    //  나중에 카드 필터링 로직과 연결 가능
-  };
-  
+  setQuery(text);
+  console.log("검색어:", text);
+};
   
   useEffect(() => {
       const fetchPosts = async () => {
