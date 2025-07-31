@@ -11,6 +11,7 @@ import FirstPage from './Pages/FirstPage';
 import AdminPage from './Pages/AdminPage';
 import CreatePage from './Pages/CreatePage';
 import MainPage from './Pages/MainPage';
+import SignupPage from './Pages/SignupPage.js';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -50,13 +51,14 @@ function App() {
       <Routes>
         <Route path="/" element={<FirstPage user={user} />} />         {/* 첫화면 */}
         <Route path="/login" element={<LoginPage />} />   {/* 로그인 */}
+        <Route path="/signup" element={<SignupPage />} />    {/* 회원가입 */}
         {/* 관리자 */}
         <Route path="/admin" 
           element={
             user && role === 'admin' ? <AdminPage /> : <Navigate to="/login" />   
           }
         />
-        <Route path="/main" element={<MainPage />} />
+        <Route path="/main" element={<MainPage />} /> {/* 메인 */}
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
       </Routes>
     </Router>
