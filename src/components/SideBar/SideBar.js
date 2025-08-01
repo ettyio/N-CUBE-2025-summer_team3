@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SideBar.css';
 import Slider from './Slider';
 
-const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRange }) => {
+const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRange, recentTags, onRemoveTag, onClickTag}) => {
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
@@ -14,12 +14,19 @@ const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRan
     return (
         <div className="sidebar">
         <div className="filter-group">
-            <h3 className="filter-title">태그</h3>
+            <h3 className="filter-title">최근 검색</h3>
             <div className="tag-box">
-                <div className="tag-item">태그1 <span className="remove">×</span></div>
-                <div className="tag-item">태그2 <span className="remove">×</span></div>
-                <div className="tag-item">태그3 <span className="remove">×</span></div>
-            </div>
+                {recentTags.length > 0 ? (
+                 recentTags.map((tag, index) => (
+                    <div className="tag-item" key={index}>
+                        <span onClick={() => onClickTag(tag)}>{tag}</span>
+                        <span className="remove" onClick={() => onRemoveTag(tag)}>×</span>
+                    </div>
+                 ))
+              ) : (
+                <div className="tag-item">최근 검색어 없음</div>
+              )}
+            </div>          
         </div>
 
         <div className="filter-group">

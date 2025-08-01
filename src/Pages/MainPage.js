@@ -15,13 +15,28 @@ const MainPage = () => {
   const location = useLocation(); 
   const [initializedFromURL, setInitializedFromURL] = useState(false); 
   const [query, setQuery] = useState('');
+  const [recentTags, setRecentTags] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
-  const handleSearch = (text) => {
+  const handleSearchLive = (text) => {
   setQuery(text);
-  console.log("검색어:", text);
+  };  
+
+  const handleSearchSubmit = (text) => {
+  setRecentTags(prev => {
+    const updated = [text, ...prev.filter(tag => tag !== text)];
+    return updated.slice(0, 5);
+  });
+};
+
+  const handleRemoveTag = (tagToRemove) => {
+  setRecentTags(prev => prev.filter(tag => tag !== tagToRemove));
+};
+
+const handleClickTag = (tag) => {
+  setQuery(tag); 
 };
   
   useEffect(() => {
@@ -65,11 +80,19 @@ const MainPage = () => {
         onCategoryChange={setSelectedCategories}
         priceRange={priceRange}
         setPriceRange={setPriceRange}
+        recentTags={recentTags}
+        onRemoveTag={handleRemoveTag}
+        onClickTag={handleClickTag}
       />
 
       <div className="main-content">
         <div className="main-header">
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar 
+          query={query}
+          setQuery={setQuery}
+          onSearchLive={handleSearchLive}
+          onSearchSubmit={handleSearchSubmit} 
+          />
           <div className="sort-buttons">
             <button className="active">기본</button>
             <button>인기순</button>
