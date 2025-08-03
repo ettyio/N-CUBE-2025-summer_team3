@@ -455,3 +455,4 @@ const dropdownOptions = {
     AI개론: ['AI전문가']
   }
 };
+export default dropdownOptions;
