@@ -1,9 +1,16 @@
 import React from 'react';
 import './CardItem.css';
+import { useNavigate } from 'react-router-dom';
 
-const CardItem = ({ title, description, image, price }) => {
+const CardItem = ({ id, title, description, image, price }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/detail/${id}`);
+  };
+
   return (
-    <div className="card-item">
+    <div className="card-item" onClick={handleClick}>
       <img src={image || '/image.png'} alt="자료 이미지" className="card-image" />
       <div className="card-content">
         <h3 className="card-title">{title}</h3>

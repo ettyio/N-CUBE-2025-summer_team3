@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import '../PageStyles/DetailPage.css';
 
 const DetailPage = () => {
@@ -7,34 +9,29 @@ const DetailPage = () => {
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    //테스트용 데이터
-    if (!id) {
-      setPost({
-        title: '자료구조 족보',
-        description: '스택, 큐, 트리 핵심 요약본입니다.',
-        image: '/sample2.jpg',
-        price: 5000,
-        category: '전공',
-        subject: '자료구조',
-        professor: '신찬수',
-        createdAt: { toDate: () => new Date() }
-      });
-      return;
-    }
+    const fetchPost = async () => {
+      try {
+        const docRef = doc(db, 'posts', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setPost({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          console.log('존재하지 않는 게시물입니다.');
+        }
+      } catch (err) {
+        console.error('데이터 불러오기 실패:', err);
+      }
+    };
 
-    // 나중에 실제 데이터 불러올 로직 (지금은안됨)
+    if (id) fetchPost();
   }, [id]);
 
-  if (!post) return <div>불려오는 중...</div>;
+  if (!post) return <div>불러오는 중...</div>;
 
   return (
     <div className="detail-container">
       <div className="detail-left">
-        <img
-          src={post.image || '/image.png'}
-          alt="자료 이미지"
-          className="detail-image"
-        />
+        <img src={post.image || '/image.png'} alt="자료 이미지" className="detail-image" />
         <div className="detail-description">{post.description}</div>
       </div>
 
@@ -63,11 +60,7 @@ const DetailPage = () => {
           <button className="chat-button">채팅</button>
           <button className="buy-button">구매</button>
           <button className="report-button">
-            <img
-              src="/report_icon.png"
-              alt="신고"
-              className="report-icon"
-            />
+            <img src="/report_icon.png" alt="신고" className="report-icon" />
           </button>
         </div>
       </div>
