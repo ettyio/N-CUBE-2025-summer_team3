@@ -64,7 +64,7 @@ function App() {
         <Route path="/main" element={<MainPage />} /> {/* 메인 */}
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
-        <Route path="/detail" element={<DetailPage />} />    {/* 자료디테일 */}
+        <Route path="/detail/:id" element={<DetailPage />} /> {/* 자료디테일 */}
         <Route path="/chat" element={<ChatHomePage />} />    {/* 채팅 홈 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/basic" element={<MainPage />} />

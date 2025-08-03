@@ -105,6 +105,7 @@ const handleClickTag = (tag) => {
           {filteredPosts.map((post) => (
             <CardItem 
             key={post.id}
+            id={post.id}
             title={post.title}
             description={post.description}
             image={post.image}
