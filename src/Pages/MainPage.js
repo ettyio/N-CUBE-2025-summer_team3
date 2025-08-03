@@ -65,12 +65,13 @@ const handleClickTag = (tag) => {
     
  
   
-   const filteredPosts = posts.filter(post => {
+    const displayedPosts = posts.filter((post) => {
     const matchQuery = post.title.toLowerCase().includes(query.toLowerCase());
     const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category);
     const matchPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
     return matchQuery && matchCategory && matchPrice;
   });
+
 
 
   return (
@@ -102,7 +103,7 @@ const handleClickTag = (tag) => {
 
 
         <div className="card-grid">
-          {filteredPosts.map((post) => (
+          {displayedPosts.map((post) => (
             <CardItem 
             key={post.id}
             id={post.id}
