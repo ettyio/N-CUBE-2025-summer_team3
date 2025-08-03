@@ -5,10 +5,8 @@ import dropdownOptions from '../data/dropdownOptions.js';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
-import { useNavigate } from 'react-router-dom';//임시
 
 const CreatePage = () => {
-  const navigate = useNavigate();//임시
   const [image, setImage] = useState('');
   const [price, setPrice] = useState(5000);
   const [title, setTitle] = useState('');
@@ -192,9 +190,6 @@ return (
 
           <button className="submit-button" onClick={handleSubmit}>
             등록
-          </button>
-          <button className="pay-button" onClick={() => navigate("/payment")}>
-            테스트용 결제 이동 버튼
           </button>
         </div>
       </div>

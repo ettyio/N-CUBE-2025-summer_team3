@@ -3,10 +3,13 @@ import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import '../PageStyles/DetailPage.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const DetailPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -58,7 +61,7 @@ const DetailPage = () => {
         </div>
         <div className="detail-buttons">
           <button className="chat-button">채팅</button>
-          <button className="buy-button">구매</button>
+          <button className="buy-button" onClick={() =>  navigate(`/pay/${post.id}`)}>구매</button>
           <button className="report-button">
             <img src="/report_icon.png" alt="신고" className="report-icon" />
           </button>

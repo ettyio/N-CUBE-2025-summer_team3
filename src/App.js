@@ -12,13 +12,10 @@ import AdminPage from './Pages/AdminPage';
 import CreatePage from './Pages/CreatePage';
 import MainPage from './Pages/MainPage';
 import MyPage from './Pages/MyPage';
-<<<<<<< Updated upstream
 import DetailPage from './Pages/DetailPage';
 import SignupPage from './Pages/SignupPage.js';
 import ChatHomePage from './Pages/ChatHomePage';
-=======
 import PaymentPage from './Pages/PaymentPage';
->>>>>>> Stashed changes
 
 function App() {
   const [user, setUser] = useState(null);
@@ -68,16 +65,13 @@ function App() {
         <Route path="/main" element={<MainPage />} /> {/* 메인 */}
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
-<<<<<<< Updated upstream
         <Route path="/detail/:id" element={<DetailPage />} /> {/* 자료디테일 */}
         <Route path="/chat" element={<ChatHomePage />} />    {/* 채팅 홈 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/basic" element={<MainPage />} />
         <Route path="/liberal" element={<MainPage />} />
         <Route path="/major" element={<MainPage />} />
-=======
-        <Route path="/payment" element={<PaymentPage/>}/>  {/* 결제 */}
->>>>>>> Stashed changes
+        <Route path="/pay/:id" element={<PaymentPage />} />
       </Routes>
     </Router>
   );
