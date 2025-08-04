@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ReportModal from '../components/ReportModal/ReportModal';
 import '../PageStyles/DetailPage.css';
 
 const DetailPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    //테스트용 데이터
     if (!id) {
       setPost({
         title: '자료구조 족보',
@@ -22,10 +23,26 @@ const DetailPage = () => {
       return;
     }
 
-    // 나중에 실제 데이터 불러올 로직 (지금은안됨)
+    // TODO: 실제 데이터 fetch 로직 추가 예정
   }, [id]);
 
-  if (!post) return <div>불려오는 중...</div>;
+  const handleReport = async ({ target, reason }) => {
+    try {
+      await fetch(`/materials/${id}/report`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ target, reason })
+      });
+      alert('신고가 완료되었습니다.');
+    } catch (err) {
+      console.error(err);
+      alert('신고 처리 중 오류가 발생했습니다.');
+    }
+  };
+
+  if (!post) return <div>불러오는 중...</div>;
 
   return (
     <div className="detail-container">
@@ -62,7 +79,7 @@ const DetailPage = () => {
         <div className="detail-buttons">
           <button className="chat-button">채팅</button>
           <button className="buy-button">구매</button>
-          <button className="report-button">
+          <button className="report-button" onClick={() => setShowModal(true)}>
             <img
               src="/report_icon.png"
               alt="신고"
@@ -71,8 +88,15 @@ const DetailPage = () => {
           </button>
         </div>
       </div>
+
+      <ReportModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleReport}
+      />
     </div>
   );
 };
 
 export default DetailPage;
+
