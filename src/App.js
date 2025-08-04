@@ -15,6 +15,7 @@ import MyPage from './Pages/MyPage';
 import DetailPage from './Pages/DetailPage';
 import SignupPage from './Pages/SignupPage.js';
 import ChatHomePage from './Pages/ChatHomePage';
+import PaymentPage from './Pages/PaymentPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +71,7 @@ function App() {
         <Route path="/basic" element={<MainPage />} />
         <Route path="/liberal" element={<MainPage />} />
         <Route path="/major" element={<MainPage />} />
+        <Route path="/pay/:id" element={<PaymentPage />} />
       </Routes>
     </Router>
   );

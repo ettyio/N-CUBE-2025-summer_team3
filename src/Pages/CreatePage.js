@@ -5,6 +5,7 @@ import dropdownOptions from '../data/dropdownOptions.js';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
+
 const CreatePage = () => {
   const [image, setImage] = useState('');
   const [price, setPrice] = useState(5000);
