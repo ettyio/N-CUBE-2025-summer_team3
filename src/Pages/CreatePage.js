@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import '../PageStyles/CreatePage.css';
 import dropdownOptions from '../data/dropdownOptions.js';
+import { useNavigate } from 'react-router-dom';
 
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+
 
 const CreatePage = () => {
   const [image, setImage] = useState('');
@@ -16,7 +19,7 @@ const CreatePage = () => {
     subject: '',
     professor: '',
   });
-
+  const navigate = useNavigate();
 
 const handleImageChange = (e) => {
   const file = e.target.files[0];
@@ -39,6 +42,13 @@ const handleSubmit = async () => {
     alert('제목, 설명, 이미지가 필요합니다.');
     return;
   }
+ 
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    alert('로그인이 필요합니다.');
+    return;
+  }
 
   try {
     await addDoc(collection(db, 'posts'), {
@@ -46,11 +56,14 @@ const handleSubmit = async () => {
       description,
       price: Number(price),
       image, // base64
+      sellerId: currentUser.uid,
       ...dropdowns,
       createdAt: Timestamp.now(),
     });
+
     console.log('등록 성공!');
     alert('게시글이 등록되었습니다!');
+
     // 초기화
     setTitle('');
     setDescription('');
@@ -62,6 +75,8 @@ const handleSubmit = async () => {
       subject: '',
       professor: '',
     });
+
+    navigate(`/basic`);
   } catch (error) {
     console.error('등록 실패:', error);
     alert(
@@ -117,8 +132,9 @@ return (
                 className="dropdown"
               >
                 <option value="">분류 선택</option>
-                {dropdownOptions.category.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                {Array.isArray(dropdownOptions.category) &&
+                  dropdownOptions.category.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
                 ))}
               </select>
 
@@ -130,8 +146,9 @@ return (
                 disabled={!dropdowns.category}
               >
                 <option value="">학부 선택</option>
-                {(dropdownOptions.department[dropdowns.category] || []).map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                {Array.isArray(dropdownOptions.department?.[dropdowns.category]) &&
+                  dropdownOptions.department[dropdowns.category].map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
                 ))}
               </select>
 
@@ -143,8 +160,9 @@ return (
                 disabled={!dropdowns.department}
               >
                 <option value="">과목 선택</option>
-                {(dropdownOptions.subject[dropdowns.department] || []).map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                {Array.isArray(dropdownOptions.subject?.[dropdowns.department]) &&
+                  dropdownOptions.subject[dropdowns.department].map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
                 ))}
               </select>
 
@@ -156,8 +174,9 @@ return (
                 disabled={!dropdowns.subject}
               >
                 <option value="">교수 선택</option>
-                {(dropdownOptions.professor[dropdowns.subject] || []).map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                {Array.isArray(dropdownOptions.professor?.[dropdowns.subject]) &&
+                  dropdownOptions.professor[dropdowns.subject].map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
                 ))}
               </select>
             </div>

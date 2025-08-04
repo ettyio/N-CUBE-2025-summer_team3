@@ -15,6 +15,7 @@ import MyPage from './Pages/MyPage';
 import DetailPage from './Pages/DetailPage';
 import SignupPage from './Pages/SignupPage.js';
 import ChatHomePage from './Pages/ChatHomePage';
+import PaymentPage from './Pages/PaymentPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -65,11 +66,12 @@ function App() {
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
         <Route path="/detail/:id" element={<DetailPage />} /> {/* 자료디테일 */}
-        <Route path="/chat" element={<ChatHomePage />} />    {/* 채팅 홈 */}
+        <Route path="/chat/:chatId" element={<ChatHomePage />} />    {/* 채팅 홈 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/basic" element={<MainPage />} />
         <Route path="/liberal" element={<MainPage />} />
         <Route path="/major" element={<MainPage />} />
+        <Route path="/pay/:id" element={<PaymentPage />} />
       </Routes>
     </Router>
   );
