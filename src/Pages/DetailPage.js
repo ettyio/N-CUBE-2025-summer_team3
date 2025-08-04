@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import '../PageStyles/DetailPage.css';
 import { useNavigate } from 'react-router-dom';
 
-const createOrGetChatRoom = async (currentUserId, sellerId) => {
+const createOrGetChatRoom = async (currentUserId, sellerId, postId) => {
   // chats 루트 컬렉션에서 기존 채팅방 조회
   const chatQuery = query(
     collection(db, "chats"),
@@ -32,17 +32,20 @@ const createOrGetChatRoom = async (currentUserId, sellerId) => {
   const newChatDoc = await addDoc(collection(db, "chats"), {
     participants: [currentUserId, sellerId],
     createdAt: now,
+    postId : postId
   });
 
   await setDoc(doc(db, "users", currentUserId, "chats", newChatDoc.id), {
     chatId: newChatDoc.id,
     participants: [currentUserId, sellerId],
     createdAt: now,
+    postId: postId
   });
   await setDoc(doc(db, "users", sellerId, "chats", newChatDoc.id), {
     chatId: newChatDoc.id,
     participants: [currentUserId, sellerId],
     createdAt: now,
+    postId: postId
   });
 
   return newChatDoc.id;
@@ -68,7 +71,8 @@ const DetailPage = () => {
     }
 
     try {
-      const chatId = await createOrGetChatRoom(currentUserId, sellerId);
+      const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
+      console.log("✅ 생성된 chatId:", chatId);
       navigate(`/chat/${chatId}`);
     } catch (err) {
       console.error("채팅방 이동 실패:", err);
@@ -115,7 +119,7 @@ const DetailPage = () => {
         <div className="detail-meta-row">
           <div className="detail-meta-block">
             <div className="meta-label">판매자</div>
-            <div className="meta-value">{post.sellerId.name}</div>
+           <div className="meta-value">{post.sellerId?.name || '알 수 없음'}</div>
           </div>
           <div className="detail-meta-block">
             <div className="meta-label">게시일</div>
