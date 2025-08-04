@@ -97,6 +97,7 @@ const DetailPage = () => {
   if (!post) return <div>불러오는 중...</div>;
 
   return (
+     <div className="detail-wrapper">
     <div className="detail-container">
       <div className="detail-left">
         <img src={post.image || '/image.png'} alt="자료 이미지" className="detail-image" />
@@ -136,6 +137,7 @@ const DetailPage = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
