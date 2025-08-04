@@ -187,6 +187,48 @@
   border: none;
 }
 
+.detail-title-row {
+  display: flex;
+  align-items: center; /* 중앙 정렬 */
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s;
+}
+
+.heart-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.heart-button:hover {
+  transform: scale(1.05);
+}
+
+.heart-button.liked {
+  filter: brightness(1.8);
+}
+
+
 /* ----------- 반응형 ----------- */
 @media (max-width: 900px) {
   .detail-container {
@@ -194,7 +236,7 @@
     padding: 28px 4vw;
     gap: 28px;
     align-items: stretch;
-    transform: scale(0.8); /* 줄이되 너무 작진 않게 */
+    transform: scale(0.8);
   }
 
   .detail-left,
@@ -208,7 +250,7 @@
     width: 100% !important;
     max-width: 100vw !important;
     height: auto !important;
-    max-height: 300px; /* 조금 더 크게 */
+    max-height: 300px;
   }
 
   .detail-description {
@@ -220,7 +262,7 @@
   }
 
   .detail-title {
-    font-size: 24px; /* 제목 크기 살짝 키움 */
+    font-size: 24px;
   }
 
   .detail-category {
