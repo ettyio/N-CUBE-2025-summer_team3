@@ -1,4 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { db, auth } from '../firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { onAuthStateChanged, updatePassword } from 'firebase/auth';
 import '../PageStyles/MyPage.css';
 
 
@@ -85,8 +88,66 @@ function MyPage() {
       '화학과',
       '환경학과']
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const userDocRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setName(data.name || '');
+            setPhone(data.phone || '');
+            if (!isEditingPassword) {
+              setPassword('********');
+            }
+            setProfileImage(data.profileImage || '/Frame 1.png');
+            setMajor1(data.major1 || '');
+            setMajor2(data.major2 || '');
+          }
+        }
+      });
+      return () => unsubscribe();
+    }, [isEditingPassword]);
+
+  const saveUserData = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+
+      if (isEditingPassword && password !== '********') {
+        try {
+          await updatePassword(user, password);
+          alert('비밀번호가 변경되었습니다.');
+        }catch (error) {
+          if (error.code === 'auth/requires-recent-login') {
+            alert('보안을 위해 다시 로그인 후 시도하세요.');
+            return;
+          } else {
+            alert('비밀번호 변경 중 오류 발생: '+error.message);
+            return;
+          }
+        }
+      }
+      await updateDoc(userRef, {
+        name,
+        phone,
+        profileImage,
+        major1,
+        major2
+      });
+      alert('정보가 저장되었습니다.');
+
+      setIsEditingName(false);
+      setIsEditingPhone(false);
+      setIsEditingPassword(false);
+    }
+  };
+
   const handleKeyDown = (e, setEditState) => {
-    if (e.key === 'Enter') setEditState(false);
+    if (e.key === 'Enter') {
+      setEditState(false);
+      saveUserData();
+    }
   };
 
   return (
@@ -142,11 +203,25 @@ function MyPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 readOnly={!isEditingName}
-                onKeyDown={(e) => handleKeyDown(e, setIsEditingName)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setIsEditingName(false);
+                    saveUserData();
+                  }
+                }}
             />
-            <button onClick={() => setIsEditingName(true)}>
-              {isEditingName ? '수정 중' : '수정'}
+            {isEditingName ? (
+              <button 
+              onClick={() => {
+                saveUserData();
+                setIsEditingName(false);
+              }}
+            >
+              저장
             </button>
+            ) : (
+              <button onClick={() => setIsEditingName(true)}>수정</button>
+            )}
           </div>
         </div>
 
@@ -159,9 +234,18 @@ function MyPage() {
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, setIsEditingPassword)}
           />
-          <button onClick={() => setIsEditingPassword(true)}>
-              {isEditingPassword ? '수정 중' : '수정'}
-          </button>
+          {isEditingPassword ? (
+            <button 
+              onClick={() => {
+                saveUserData();
+                setIsEditingPassword(false);
+              }}
+            >
+              저장
+            </button>
+          ) : (
+            <button onClick={() => setIsEditingPassword(true)}>수정</button>
+          )}
         </div>
 
         <div className="info-group">
@@ -173,9 +257,18 @@ function MyPage() {
             onChange={(e) => setPhone(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, setIsEditingPhone)}
           />
-          <button onClick={() => setIsEditingPassword(true)}>
-              {isEditingPhone ? '수정 중' : '수정'}
-          </button>
+          {isEditingPhone ? (
+            <button 
+              onClick={() => {
+                saveUserData();
+                setIsEditingPhone(false);
+              }}
+            >
+              저장
+            </button>
+          ) : (
+            <button onClick={() => setIsEditingPhone(true)}>수정</button>
+          )}
         </div>
 
         <div className="info-group">
@@ -196,6 +289,12 @@ function MyPage() {
               <option key={i} value={m}>{m}</option>
             ))}
           </select>
+        </div>
+
+        <div className="info-group">
+            <button className="save-button" onClick={saveUserData}>
+              저장
+            </button>
         </div>
       </main>
     </div>
