@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header/Header';
+
 import '../PageStyles/SignupPage.css';
 
 const SignupPage = () => {
@@ -25,7 +25,7 @@ const SignupPage = () => {
 
   return (
     <>
-      <Header />
+
       <div className="signup-container">
         <form onSubmit={handleSignup} className="signup-form">
           <h2>회원가입</h2>
