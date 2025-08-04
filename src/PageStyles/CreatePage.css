@@ -148,3 +148,15 @@
   cursor: pointer;
 }
 
+.pay-button {
+  align-self: flex-end;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+

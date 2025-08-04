@@ -1,0 +1,130 @@
+.payment-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.payment-panel {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.payment-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.payment-product {
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.info-image {
+  width: 100%;
+  height: 200px;
+  background-color: #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.product-desc {
+  margin-top: 12px;
+  color: #666;
+}
+
+.payment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-box input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.refund-policy {
+  background: #f0f0f0;
+  padding: 12px;
+  border-radius: 6px;
+  height: 220px;  
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.section-title {
+  font-weight:600;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  color: #2c3e50
+}
+
+.agreement {
+  font-size: 14px;
+}
+
+.pay-actions {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #ededed;  /* 위쪽만 살짝 구분 */
+  background: transparent;
+  border: none;
+}
+
+.pay-panel-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #333;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;      
+  border-radius: 8px;
+  outline: none;      
+  box-shadow: none;      
+  cursor: pointer;
+  transition: background-color .3s ease, transform .1s ease;
+}
+
+.pay-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0,0,0,.18);
+}
+
+.pay-btn:hover:not(:disabled) { background:#333; transform: translateY(-2px); }
+.pay-btn:active:not(:disabled) { background:#222; transform: translateY(0); }
+.pay-btn:disabled { background:#ccc; color:#666; cursor:not-allowed; }
+
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .payment-content { grid-template-columns: 1fr; }
+  .pay-actions { padding: 12px; }
+}

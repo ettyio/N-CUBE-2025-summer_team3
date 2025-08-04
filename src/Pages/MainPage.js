@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useLocation } from 'react-router-dom'; 
 
 import Header from '../components/Header/Header.js';
 import SideBar from '../components/SideBar/SideBar.js';
@@ -11,44 +12,88 @@ import '../PageStyles/MainPage.css';
 
 
 const MainPage = () => {
+  const location = useLocation(); 
+  const [initializedFromURL, setInitializedFromURL] = useState(false); 
   const [query, setQuery] = useState('');
+  const [recentTags, setRecentTags] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
 
-  const handleSearch = (text) => {
-    setQuery(text);
-    console.log("검색어:", text);
-    //  나중에 카드 필터링 로직과 연결 가능
-  };
-  
+  const handleSearchLive = (text) => {
+  setQuery(text);
+  };  
+
+  const handleSearchSubmit = (text) => {
+  setRecentTags(prev => {
+    const updated = [text, ...prev.filter(tag => tag !== text)];
+    return updated.slice(0, 5);
+  });
+};
+
+  const handleRemoveTag = (tagToRemove) => {
+  setRecentTags(prev => prev.filter(tag => tag !== tagToRemove));
+};
+
+const handleClickTag = (tag) => {
+  setQuery(tag); 
+};
   
   useEffect(() => {
-      const fetchPosts = async () => {
-        try {
-          const snapshot = await getDocs(collection(db, 'posts'));
-         const data = snapshot.docs.map(doc => ({
-           id: doc.id,
-            ...doc.data()
-         }));
-         setPosts(data);
-        } catch (error) {
-         console.error("게시글 불러오기 오류:", error);
-       }
-      };
-      fetchPosts();
-    }, []);
+    const fetchPosts = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'posts'));
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPosts(data);
+      } catch (error) {
+        console.error("게시글 불러오기 오류:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === '/basic') setSelectedCategories(['기초']);
+    else if (location.pathname === '/liberal') setSelectedCategories(['교양']);
+    else if (location.pathname === '/major') setSelectedCategories(['전공']);
+    else setSelectedCategories([]);
+  }, [location.pathname]);
+    
  
   
-  const filteredPosts = posts.filter(post =>
-    post.title.toLowerCase().includes(query.toLowerCase())
-  );
+    const displayedPosts = posts.filter((post) => {
+    const matchQuery = post.title.toLowerCase().includes(query.toLowerCase());
+    const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category);
+    const matchPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
+    return matchQuery && matchCategory && matchPrice;
+  });
+
+
 
   return (
     <div className="mainpage-layout">
-      <SideBar />
+     <SideBar
+        selectedCategories={selectedCategories}
+        onCategoryChange={setSelectedCategories}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+        recentTags={recentTags}
+        onRemoveTag={handleRemoveTag}
+        onClickTag={handleClickTag}
+      />
 
       <div className="main-content">
         <div className="main-header">
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar 
+          query={query}
+          setQuery={setQuery}
+          onSearchLive={handleSearchLive}
+          onSearchSubmit={handleSearchSubmit} 
+          />
           <div className="sort-buttons">
             <button className="active">기본</button>
             <button>인기순</button>
@@ -58,9 +103,10 @@ const MainPage = () => {
 
 
         <div className="card-grid">
-          {filteredPosts.map((post) => (
+          {displayedPosts.map((post) => (
             <CardItem 
             key={post.id}
+            id={post.id}
             title={post.title}
             description={post.description}
             image={post.image}

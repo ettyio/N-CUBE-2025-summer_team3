@@ -39,6 +39,7 @@
   align-items: center;
   gap: 4px;
   color: #000;
+  cursor: pointer;
 }
 
 .tag-item .remove {
