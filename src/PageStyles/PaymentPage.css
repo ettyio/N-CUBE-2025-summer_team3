@@ -74,6 +74,13 @@
   font-size: 14px;
 }
 
+.section-title {
+  font-weight:600;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  color: #2c3e50
+}
+
 .agreement {
   font-size: 14px;
 }

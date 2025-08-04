@@ -56,25 +56,41 @@ const PaymentPage = () => {
 
           <input
             type="text"
-            value="우리은행 123-12345678-99 (예금주: 이서정)"
+            value="우리은행 1002-465-117975 (예금주: 이서정)"
             disabled
           />
 
           <input type="text" placeholder="0000원" />
 
-          <p>입금 시 구매 의사를 표명할 입금자명을 적어주세요.</p>
-          <input type="text" placeholder="입금자명 / 주문번호" />
+          <p>입금 시 아래 양식으로 입금자명을 적어주세요.</p>
+          <input 
+            type="text" 
+            value="입금자명 / 주문번호" 
+            disabled
+          />
 
           <div>
             <strong>취소 및 환불 정책 안내</strong>
             <div className="refund-policy">
-              <ol>
-                <li>입금 전 취소: 입금 전 결제는 언제든지 취소할 수 있습니다.</li>
-                <li>환불 가능 조건: 자료 열람 전</li>
-                <li>자료 열람 후 환불 불가</li>
-                <li>문의 사항: supportgoji@gmail.com 으로 연락</li>
-                <li>처리 시간: 영업일 기준 3일 이내 완료</li>
-              </ol>
+              <p className="section-title">1. 결제 후 취소</p>
+              <p>
+                입금 확인 전에는 언제든지 결제를 취소할 수 있습니다.<br />
+                입금 후에는 자료 확인 여부에 따라 환불 가능 여부가 결정됩니다.
+              </p>
+              <p className="section-title">2. 환불 가능 조건</p>
+              <p>
+                <li>자료 열람 전: 전액 환불</li>
+                <li>자료 열람 후: 환불 불가</li>
+              </p>
+              <p className="section-title">3. 환불 요청 방법</p>
+              <p>
+                <a href="mailto:support@plzSaveme.com">support@plzSaveme.com</a> 으로 연락 바랍니다.<br />
+                이름, 입금자명, 입금일자, 환불 사유, 환불받으실 계좌번호를 함께 보내주세요.
+              </p>
+              <p className="section-title">4. 환불 처리 기간</p>
+              <p>
+                환불 요청 승인 후, 영업일 기준 3일 이내에 입금 계좌로 환불됩니다.
+              </p>
             </div>
           </div>
 
