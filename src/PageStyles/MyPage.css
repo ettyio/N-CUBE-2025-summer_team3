@@ -32,28 +32,23 @@
 
 .mypage-sidebar li {
   margin-bottom: 30px;
-  font-weight: bold;
+  font-weight: 400;
   cursor: pointer;
+}
+
+.menu-group li.active {
+  font-weight: 700;
 }
 
 .menu-list ul {
     font-size: 15px;
 }
 
-
-.mypage-sidebar li::after {
-  content: "Menu description.";
-  display: block;
-  font-weight: normal;
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px;
-}
-
 .menu-group {
   border-bottom: 1px solid #ddd;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  margin-top: 40px;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
 }
 
 .withdraw {
@@ -61,8 +56,8 @@
   color: rgb(126, 126, 126);
   text-align: center;
   margin-top: 280px;
-  padding-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 25px;
+  margin-bottom: 25px;
 }
 
 .mypage-content {
@@ -88,6 +83,28 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.profile {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;  
+  align-items: center;      
+}
+
+.profile__btns {
+  display: flex;
+  gap: 8px;
+}
+
+.profile__btns button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 3px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 
 .info-group {
   display: flex;
