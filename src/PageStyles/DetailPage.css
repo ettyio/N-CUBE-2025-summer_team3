@@ -1,6 +1,6 @@
 .detail-container {
   display: flex;
-  padding: 60px 300px;
+  padding: 60px 5vw;
   gap: 50px;
   align-items: flex-start;
 }
@@ -22,7 +22,8 @@
 }
 
 .detail-description {
-  width: 1350px;
+  width: 100%;
+  max-width: 100%;
   height: 280px;
   background-color: #f8f8f8;
   padding: 20px;
@@ -310,7 +311,7 @@
 }
 
 .detail-container {
-  transform: scale(1);
+  transform: none;
   transform-origin: top center;
 }
 
