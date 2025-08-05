@@ -71,9 +71,13 @@ const DetailPage = () => {
     }
 
     try {
-      const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
+      if (!post || !post.id) {
+    alert("포스트 정보를 불러오지 못했습니다.");
+    return;
+    }
+      const chatId = await createOrGetChatRoom(currentUserId, post.sellerId, post.id);
       console.log("✅ 생성된 chatId:", chatId);
-      navigate(`/chat/${chatId}`);
+      navigate(`/chatroom/${chatId}`);
     } catch (err) {
       console.error("채팅방 이동 실패:", err);
       alert("채팅방 이동에 실패했습니다.");
