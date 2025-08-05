@@ -11,13 +11,15 @@ import ReportModal from '../components/ReportModal/ReportModal';
 const createOrGetChatRoom = async (currentUserId, sellerId, postId) => {
   const chatQuery = query(
     collection(db, "chats"),
-    where("participants", "array-contains", currentUserId)
+    where("participants", "array-contains", currentUserId),
+    where("postId", "==", postId)
   );
+
   const snapshot = await getDocs(chatQuery);
 
   for (const docSnap of snapshot.docs) {
-    const participants = docSnap.data().participants;
-    if (participants.includes(currentUserId) && participants.includes(sellerId)) {
+    const data = docSnap.data();
+    if (data.participants.includes(sellerId)) {
       return docSnap.id;
     }
   }
