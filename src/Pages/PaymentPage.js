@@ -25,6 +25,8 @@ const PaymentPage = () => {
 
   if (!post) return <div>불러오는 중…</div>;
 
+  const formatKRW = (n) => `${Number(n || 0).toLocaleString()}원`;
+
   return (
     <div className="payment-container">
       <h1 className="payment-title">결제</h1>
@@ -60,7 +62,12 @@ const PaymentPage = () => {
             disabled
           />
 
-          <input type="text" placeholder="0000원" />
+          <input
+            type="text"
+            value={post ? formatKRW(post.price) : ''} 
+            readOnly                                     // 복사 가능하도록
+            aria-readonly="true"
+          />
 
           <p>입금 시 아래 양식으로 입금자명을 적어주세요.</p>
           <input 

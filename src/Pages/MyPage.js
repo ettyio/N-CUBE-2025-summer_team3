@@ -2,21 +2,23 @@ import React, { useRef, useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged, updatePassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import '../PageStyles/MyPage.css';
 
 
 function MyPage() {
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState('홍길동');// 나중에 회원가입 내용으로 변경
   const [isEditingName, setIsEditingName] = useState(false);
 
   const [phone, setPhone] = useState('010-1234-5678'); // 나중에 회원가입 내용으로 변경
   const [isEditingPhone, setIsEditingPhone] = useState(false);
-
   const [password, setPassword] = useState('********'); // 나중에 회원가입 내용으로 변경
   const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-  const [profileImage, setProfileImage] = useState('/Frame 1.png');
+  const [profileImage, setProfileImage] = useState('/BlankProfilePicture.png');
   const fileInputRef = useRef(null);
 
   const [major1, setMajor1] = useState('');
@@ -100,7 +102,7 @@ function MyPage() {
             if (!isEditingPassword) {
               setPassword('********');
             }
-            setProfileImage(data.profileImage || '/Frame 1.png');
+            setProfileImage(data.profileImage || '/BlankProfilePicture.png');
             setMajor1(data.major1 || '');
             setMajor2(data.major2 || '');
           }
@@ -150,6 +152,14 @@ function MyPage() {
     }
   };
 
+  const handleProfileEdit = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleProfileDelete = () => {
+  setProfileImage('/BlankProfilePicture.png');
+};
+
   return (
     <div className="mypage-container">
       <aside className="mypage-sidebar">
@@ -157,14 +167,20 @@ function MyPage() {
         <h2>마이페이지</h2>
         <ul>
         <ul className="menu-group">
-          <li>내 정보 수정</li>
+          <li className="active">내 정보 수정</li>
         </ul>
         <ul className="menu-group">
           <li>업로드한 자료</li>
           <li>구매한 자료</li>
         </ul>
         <ul className="menu-group">
-          <li>채팅</li>
+          <li
+            data-desc="Open recent chats"
+            onClick={() => navigate('/chat/:chatId')}
+            style={{ cursor: 'pointer' }}
+          >
+            채팅
+          </li>
         </ul>
         </ul>
           <li className="withdraw">회원탈퇴</li>
@@ -173,30 +189,38 @@ function MyPage() {
 
       <main className="mypage-content">
         <div className="profile-section">
-          <img
-            src={profileImage}
-            alt="프로필"
-            className="profile-image"
-            onClick={() => fileInputRef.current.click()}
-            style={{ cursor: 'pointer' }}
-          />
-           <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            ref={fileInputRef}
-            onChange={(e) => {
-            const file = e.target.files[0];
-            if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result); // base64로 변환해 상태에 저장
-            };
-            reader.readAsDataURL(file);
-                }
-            }}
-            />
-                    <div className="info-group">
+          <div className="profile">
+              <img
+                src={profileImage}
+                alt="프로필"
+                className="profile-image"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setProfileImage(reader.result); // base64로 변환해 상태에 저장
+                };
+                reader.readAsDataURL(file);
+                    }
+                }}
+                />
+
+              <div className="profile-actions">
+                <div className="profile__btns">
+                  <button type="button" onClick={handleProfileEdit} aria-label="프로필 사진 수정">수정</button>
+                  <button type="button" className="danger" onClick={handleProfileDelete} aria-label="프로필 사진 삭제">삭제</button>
+                </div>
+              </div>
+            </div>
+
+          <div className="info-group">
             <label>이름</label>
             <input
                 type="text"
@@ -223,8 +247,7 @@ function MyPage() {
               <button onClick={() => setIsEditingName(true)}>수정</button>
             )}
           </div>
-        </div>
-
+          </div>
         <div className="info-group">
           <label>비밀번호</label>
           <input

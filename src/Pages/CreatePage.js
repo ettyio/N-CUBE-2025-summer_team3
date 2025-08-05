@@ -50,6 +50,24 @@ const handleSubmit = async () => {
     return;
   }
 
+  const { category, department, subject, professor } = dropdowns;
+
+    if (!category || !department || !subject || !professor) {
+    // 개별 누락 항목 안내 메시지
+    const missing = [];
+    if (!category)   missing.push('분류');
+    if (!department) missing.push('학부');
+    if (!subject)    missing.push('과목');
+    if (!professor)  missing.push('교수');
+
+        if (missing.length === 1) {
+      alert(`${missing[0]}를 선택해주세요!`);
+    } else {
+      alert(`모든 항목을 선택해주세요!\n누락: ${missing.join(', ')}`);
+    }
+    return;
+  }
+
   try {
     await addDoc(collection(db, 'posts'), {
       title,
