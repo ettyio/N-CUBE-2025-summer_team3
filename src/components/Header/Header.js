@@ -36,14 +36,24 @@ const NavMenu = () => {
 };
 
 const AuthButtons = () => {
-  const { user, role, logout } = useAuth();
+  const { user, role, logout, loading } = useAuth();
   const navigate = useNavigate();
-
+  console.log('user:', user);
+  console.log('role:', role);
+  console.log('loading:', loading);
+  
   const handleMyPage = () => {
+    if (loading) {
+      alert('정보를 불러오는 중입니다. 잠시만 기다려주세요.');
+      return;
+    }
+
     if (role === 'admin') {
       navigate('/admin');
-    } else {
+    } else if (role === 'user') {
       navigate('/mypage');
+    } else {
+      alert('권한 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
     }
   };
 
@@ -51,9 +61,13 @@ const AuthButtons = () => {
     <div className="auth-buttons">
       {user ? (
         <>
-          <button className="mypage-btn" onClick={handleMyPage}>
-            {role === 'admin' ? '관리자페이지' : '마이페이지'}
-          </button>
+          {!loading ? (
+            <button className="mypage-btn" onClick={handleMyPage}>
+              {role === 'admin' ? '관리자페이지' : '마이페이지'}
+            </button>
+          ) : (
+            <button className="mypage-btn" disabled>로딩 중...</button>
+          )}
           <button className="logout-btn" onClick={logout}>
             로그아웃
           </button>

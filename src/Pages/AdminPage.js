@@ -50,7 +50,7 @@ function AdminPage() {
 
       <div className="admin-box">
         <div className="admin-greeting">
-          <strong className='admin-greeting-bold'>안녕하세요, {user?.email || 'user'}님.</strong>
+          <strong className='admin-greeting-bold'>안녕하세요, {user ? `${user.name}님.` : ''}</strong>
           <p className='admin-greeting-sub'>현재 관리자 계정으로 로그인되어 있습니다.</p>
         </div>
 
