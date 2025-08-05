@@ -1,36 +1,49 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import '../PageStyles/ChatPage.css'; 
-  
+import { collection, addDoc, serverTimestamp, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import '../PageStyles/ChatPage.css';
+
 const ChatPage = () => {
-  const { chatId } = useParams(); 
+  const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState('');
   const messagesEndRef = useRef(null);
 
+  const currentUser = auth.currentUser;
+
+  // 🔄 실시간 메시지 불러오기
   useEffect(() => {
-    const fakeMessages = [
-      { id: '1', text: '안녕하세요!', senderId: 'me' },
-      { id: '2', text: '자료 보고 연락드렸어요.', senderId: 'other' },
-      { id: '3', text: '네~ 필요하신 자료 있으신가요?', senderId: 'me' },
-    ];
-    setMessages(fakeMessages);
-    scrollToBottom();
-  }, []);
+    if (!chatId) return;
 
-  const handleSend = () => {
-    if (!newMsg.trim()) return;
+    const messagesRef = collection(db, 'chats', chatId, 'messages');
+    const q = query(messagesRef, orderBy('createdAt'));
 
-    const newMessage = {
-      id: String(Date.now()),
-      text: newMsg,
-      senderId: 'me'
-    };
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setMessages(msgs);
+      scrollToBottom();
+    });
 
-    setMessages((prev) => [...prev, newMessage]);
-    setNewMsg('');
-    scrollToBottom();
+    return () => unsubscribe();
+  }, [chatId]);
+
+  const handleSend = async () => {
+    if (!newMsg.trim() || !currentUser) return;
+
+    try {
+      await addDoc(collection(db, 'chats', chatId, 'messages'), {
+        text: newMsg,
+        senderId: currentUser.uid,
+        createdAt: serverTimestamp()
+      });
+      setNewMsg('');
+    } catch (err) {
+      console.error('메시지 전송 오류:', err);
+    }
   };
 
   const scrollToBottom = () => {
@@ -41,13 +54,13 @@ const ChatPage = () => {
 
   return (
     <div className="chat-room-container">
-      <h2 className="chat-room-title">채팅방: {chatId}</h2>
+      <h2 className="chat-room-title">채팅방</h2>
 
       <div className="chat-messages">
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`chat-message ${msg.senderId === 'me' ? 'my-msg' : 'other-msg'}`}
+            className={`chat-message ${msg.senderId === currentUser?.uid ? 'my-msg' : 'other-msg'}`}
           >
             {msg.text}
           </div>
