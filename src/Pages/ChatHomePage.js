@@ -70,7 +70,7 @@ function ChatHomePage() {
           <li 
             key={chat.id} 
             className="chat-item"
-            onClick={() => navigate(`/chat/${chat.id}`)}
+            onClick={() => navigate(`/chatroom/${chat.id}`)}
           >
             {/* <p>채팅방 ID: {chat.id}</p> */}
             <p>포스트: {chatDetails[chat.id]?.title || '불러오는 중...'}</p>
