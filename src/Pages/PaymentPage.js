@@ -110,7 +110,7 @@ const PaymentPage = () => {
             취소 및 환불 정책에 동의합니다. (미동의 시 결제 진행 불가)
           </label>
 
-            <div className="pay-panel-title">결제 진행</div>
+            {/* <div className="pay-panel-title">결제 진행</div> */}
             <div className="pay-actions">
                 <button className="pay-btn" disabled={!agreed}>결제 진행</button>
             </div>

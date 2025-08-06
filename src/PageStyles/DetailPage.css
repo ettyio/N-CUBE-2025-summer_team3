@@ -1,6 +1,6 @@
 .detail-container {
   display: flex;
-  padding: 60px 300px;
+  padding: 60px 5vw;
   gap: 50px;
   align-items: flex-start;
 }
@@ -22,7 +22,8 @@
 }
 
 .detail-description {
-  width: 1350px;
+  width: 100%;
+  max-width: 100%;
   height: 280px;
   background-color: #f8f8f8;
   padding: 20px;
@@ -187,63 +188,150 @@
   border: none;
 }
 
+.detail-title-row {
+  display: flex;
+  align-items: center; /* 중앙 정렬 */
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s;
+}
+
+.heart-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.heart-button:hover {
+  transform: scale(1.05);
+}
+
+.heart-button.liked {
+  filter: brightness(1.8);
+}
+
+
 /* ----------- 반응형 ----------- */
-@media (max-width: 1400px) {
+@media (max-width: 900px) {
   .detail-container {
     flex-direction: column;
     padding: 28px 4vw;
     gap: 28px;
     align-items: stretch;
+    transform: scale(0.8);
   }
+
   .detail-left,
   .detail-right {
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0;
   }
+
   .detail-image {
     width: 100% !important;
     max-width: 100vw !important;
     height: auto !important;
-    max-height: 230px;
+    max-height: 300px;
   }
+
   .detail-description {
     width: 100% !important;
     max-width: 100vw !important;
     height: auto !important;
-    min-height: 120px;
-    font-size: 16px;
+    min-height: 140px;
+    font-size: 17px;
   }
+
   .detail-title {
-    font-size: 23px;
+    font-size: 24px;
   }
+
   .detail-category {
-    font-size: 15px;
-    padding: 5px 12px;
-    margin-bottom: 14px;
+    font-size: 16px;
+    padding: 6px 14px;
+    margin-bottom: 16px;
   }
+
   .detail-price {
     flex-wrap: wrap;
   }
+
   .detail-currency {
-    font-size: 22px;
+    font-size: 24px;
     top: 5px;
   }
+
   .detail-amount {
-    font-size: 38px;
+    font-size: 44px;
   }
+
   .detail-buttons {
     flex-direction: column;
-    gap: 13px;
-    margin-top: 24px;
+    gap: 16px;
+    margin-top: 28px;
   }
+
   .chat-button,
   .buy-button {
     min-width: 0;
     width: 100%;
     margin-top: 0;
-    padding: 15px 0;
-    font-size: 17px;
-    border-radius: 9px;
+    padding: 18px 0;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+}
+
+
+.detail-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.detail-container {
+  transform: none;
+  transform-origin: top center;
+}
+
+@media (max-width: 1400px) {
+  .detail-container {
+    transform: scale(0.9);
+  }
+}
+@media (max-width: 1200px) {
+  .detail-container {
+    transform: scale(0.8);
+  }
+}
+@media (max-width: 1000px) {
+  .detail-container {
+    transform: scale(0.7);
+  }
+}
+@media (max-width: 800px) {
+  .detail-container {
+    transform: scale(0.6);
   }
 }
