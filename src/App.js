@@ -67,13 +67,13 @@ function App() {
         <Route path="/new" element={<CreatePage />} />    {/* 자료업로드*/}
         <Route path="/mypage" element={<MyPage />} />           {/* 마이페이지 */}
         <Route path="/detail/:id" element={<DetailPage />} /> {/* 자료디테일 */}
-        <Route path="/chat/:chatId" element={<ChatHomePage />} />    {/* 채팅 홈 */}
+        <Route path="/chat/" element={<ChatHomePage />} />    {/* 채팅 홈 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/basic" element={<MainPage />} />
         <Route path="/liberal" element={<MainPage />} />
         <Route path="/major" element={<MainPage />} />
         <Route path="/pay/:id" element={<PaymentPage />} />
-        <Route path="/chat/:chatId" element={<ChatPage />} />
+        <Route path="/chatroom/:chatId" element={<ChatPage />} />
       </Routes>
     </Router>
   );

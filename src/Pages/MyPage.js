@@ -176,7 +176,7 @@ function MyPage() {
         <ul className="menu-group">
           <li
             data-desc="Open recent chats"
-            onClick={() => navigate('/chat/:chatId')}
+            onClick={() => navigate('/chat')}
             style={{ cursor: 'pointer' }}
           >
             채팅

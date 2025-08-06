@@ -4,13 +4,24 @@ import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/Auth';
 
-const Logo = () => (
-  <div className="logo">
-    <Link to="/">
+const Logo = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleLogoClick = () => {
+    if (user) {
+      navigate('/main');  
+    } else {
+      navigate('/');      
+    }
+  };
+
+  return (
+    <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
       <img src="/logo.png" alt="Logo" />
-    </Link>
-  </div>
-);
+    </div>
+  );
+};
 
 const NavMenu = () => {
   const navigate = useNavigate();

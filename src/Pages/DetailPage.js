@@ -10,46 +10,43 @@ import ReportModal from '../components/ReportModal/ReportModal';
 import '../PageStyles/DetailPage.css';
 
 const createOrGetChatRoom = async (currentUserId, sellerId, postId) => {
-  // chats 루트 컬렉션에서 기존 채팅방 조회
   const chatQuery = query(
     collection(db, "chats"),
-    where("participants", "array-contains", currentUserId)
+    where("participants", "array-contains", currentUserId),
+    where("postId", "==", postId)
   );
+
   const snapshot = await getDocs(chatQuery);
 
-  let existingChatId = null;
-  snapshot.forEach((doc) => {
-    const participants = doc.data().participants;
-    if (participants.includes(currentUserId) && participants.includes(sellerId)) {
-      existingChatId = doc.id;
+  for (const docSnap of snapshot.docs) {
+    const data = docSnap.data();
+    if (data.participants.includes(sellerId)) {
+      return docSnap.id;
     }
-  });
-
-  if (existingChatId) {
-    return existingChatId;
   }
 
   const now = Timestamp.now();
 
-  // 새 채팅방 생성
   const newChatDoc = await addDoc(collection(db, "chats"), {
     participants: [currentUserId, sellerId],
     createdAt: now,
-    postId : postId
+    postId: postId
   });
 
-  await setDoc(doc(db, "users", currentUserId, "chats", newChatDoc.id), {
-    chatId: newChatDoc.id,
-    participants: [currentUserId, sellerId],
-    createdAt: now,
-    postId: postId
-  });
-  await setDoc(doc(db, "users", sellerId, "chats", newChatDoc.id), {
-    chatId: newChatDoc.id,
-    participants: [currentUserId, sellerId],
-    createdAt: now,
-    postId: postId
-  });
+  await Promise.all([
+    setDoc(doc(db, "users", currentUserId, "chats", newChatDoc.id), {
+      chatId: newChatDoc.id,
+      participants: [currentUserId, sellerId],
+      createdAt: now,
+      postId: postId
+    }),
+    setDoc(doc(db, "users", sellerId, "chats", newChatDoc.id), {
+      chatId: newChatDoc.id,
+      participants: [currentUserId, sellerId],
+      createdAt: now,
+      postId: postId
+    }),
+  ]);
 
   return newChatDoc.id;
 };
@@ -58,6 +55,7 @@ const DetailPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -134,7 +132,9 @@ const DetailPage = () => {
             </div>
             <div className="detail-meta-block">
               <div className="meta-label">게시일</div>
-              <div className="meta-value">{post.createdAt?.toDate().toLocaleDateString()}</div>
+              <div className="meta-value">
+                {post.createdAt?.toDate().toLocaleDateString() || 'N/A'}
+              </div>
             </div>
           </div>
 
@@ -165,5 +165,6 @@ const DetailPage = () => {
 };
 
 export default DetailPage;
+
 
 
