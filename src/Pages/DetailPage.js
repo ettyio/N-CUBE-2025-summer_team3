@@ -59,6 +59,7 @@ const DetailPage = () => {
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [sellerName, setSellerName] = useState('알 수 없음');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,7 +69,17 @@ const DetailPage = () => {
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setPost({ id: docSnap.id, ...docSnap.data() });
+          const postData = { id: docSnap.id, ...docSnap.data() };
+          setPost(postData);
+          const sellerUid = postData.sellerId?.uid || postData.sellerId;
+          if (sellerUid) {
+            const sellerRef = doc(db, 'users', sellerUid);
+            const sellerSnap = await getDoc(sellerRef);
+            if (sellerSnap.exists()) {
+              const sellerData = sellerSnap.data();
+              setSellerName(sellerData.username || '이름 없음');
+            }
+          }
         }
       } catch (err) {
         console.error('데이터 불러오기 실패:', err);
@@ -130,7 +141,7 @@ const DetailPage = () => {
           <div className="detail-meta-row">
             <div className="detail-meta-block">
               <div className="meta-label">판매자</div>
-              <div className="meta-value">{post.sellerId?.name || '알 수 없음'}</div>
+              <div className="meta-value">{sellerName}</div>
             </div>
             <div className="detail-meta-block">
               <div className="meta-label">게시일</div>

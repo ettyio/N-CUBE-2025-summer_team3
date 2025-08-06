@@ -5,7 +5,6 @@ import { onAuthStateChanged, updatePassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import '../PageStyles/MyPage.css';
 
-
 function MyPage() {
 
   const navigate = useNavigate();
@@ -95,9 +94,10 @@ function MyPage() {
         if (user) {
           const userDocRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(userDocRef);
+
           if (docSnap.exists()) {
             const data = docSnap.data();
-            setName(data.name || '');
+            setName(data.username || '불러오기 실패');
             setPhone(data.phone || '');
             if (!isEditingPassword) {
               setPassword('********');
