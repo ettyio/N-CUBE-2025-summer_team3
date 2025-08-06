@@ -74,7 +74,7 @@ function App() {
         <Route path="/liberal" element={<MainPage />} />
         <Route path="/major" element={<MainPage />} />
         <Route path="/pay/:id" element={<PaymentPage />} />
-        <Route path="/chat/:chatId" element={<ChatPage />} />
+        <Route path="/chatroom/:chatId" element={<ChatPage />} />
       </Routes>
     </Router>
   );

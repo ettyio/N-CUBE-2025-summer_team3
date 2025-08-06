@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, query, where, orderBy, limit } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import '../PageStyles/ChatHomePage.css';
+import ChatSidebar from '../components/ChatSideBar/ChatSideBar'; // ✅ 컴포넌트로 교체
+import '../PageStyles/ChatHomePage.css'
 
 function ChatHomePage() {
-  const [chats, setChats] = useState([]);
   const [user, setUser] = useState(null);
-  const [chatDetails, setChatDetails] = useState({});
-
+  const [chats, setChats] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,45 +17,60 @@ function ChatHomePage() {
       if (currentUser) {
         setUser(currentUser);
 
-        const userChatsRef = collection(db, 'users', currentUser.uid, 'chats');
-        const querySnapshot = await getDocs(userChatsRef);
-        const chatList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setChats(chatList);
+        const q = query(collection(db, 'chats'), where('participants', 'array-contains', currentUser.uid));
+        const chatSnap = await getDocs(q);
+        const chatList = await Promise.all(chatSnap.docs.map(async (chatDoc) => {
+          const chat = chatDoc.data();
+          const chatId = chatDoc.id;
 
-        // 채팅방 정보 불러오기
-        const detailsMap = {};
+          const otherUid = chat.participants.find(uid => uid !== currentUser.uid);
 
-        await Promise.all(chatList.map(async (chat) => {
-          const names = await Promise.all(
-            (chat.participants || []).map(async (uid) => {
-              try {
-                const userDoc = await getDoc(doc(db, 'users', uid));
-                if (userDoc.exists()) {
-                  return userDoc.data().name || '이름 없음';
-                } else {
-                  return '알 수 없음';
-                }
-              } catch (error) {
-                console.error('사용자 정보 가져오기 실패:', error);
-                return '오류';
-              }
-            })
-          );
-          
-          let title = '제목 없음';
+          let otherName = '알 수 없음';
+          try {
+            const userDoc = await getDoc(doc(db, 'users', otherUid));
+            if (userDoc.exists()) {
+              otherName = userDoc.data().name || '이름 없음';
+            }
+          } catch (err) {
+            console.error('상대 이름 로딩 실패', err);
+          }
+
+          let postTitle = '제목 없음';
           if (chat.postId) {
             try {
               const postDoc = await getDoc(doc(db, 'posts', chat.postId));
               if (postDoc.exists()) {
-                title = postDoc.data().title || '제목 없음';
+                postTitle = postDoc.data().title;
               }
-            } catch(error) {
-              title = '불러오기 오류';
+            } catch (err) {
+              console.error('게시글 제목 로딩 실패', err);
             }
           }
-          detailsMap[chat.id] = {names, title};
+
+          let lastMessage = '';
+          try {
+            const msgQuery = query(
+              collection(db, 'chats', chatId, 'messages'),
+              orderBy('createdAt', 'desc'),
+              limit(1)
+            );
+            const msgSnap = await getDocs(msgQuery);
+            if (!msgSnap.empty) {
+              lastMessage = msgSnap.docs[0].data().text;
+            }
+          } catch (err) {
+            console.error('마지막 메시지 로딩 실패', err);
+          }
+
+          return {
+            id: chatId,
+            otherName,
+            postTitle,
+            lastMessage
+          };
         }));
-        setChatDetails(detailsMap);
+
+        setChats(chatList);
       }
     });
 
@@ -63,21 +78,30 @@ function ChatHomePage() {
   }, []);
 
   return (
-    <div className="chat-home-container">
-      <h2>최근 채팅</h2>
-      <ul className="chat-list">
-        {chats.map(chat => (
-          <li 
-            key={chat.id} 
-            className="chat-item"
-            onClick={() => navigate(`/chat/${chat.id}`)}
-          >
-            {/* <p>채팅방 ID: {chat.id}</p> */}
-            <p>포스트: {chatDetails[chat.id]?.title || '불러오는 중...'}</p>
-            <p>참여자: {chatDetails[chat.id]?.names?.join(', ') || '불러오는 중...'}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="chatpage-layout"> 
+      <ChatSidebar
+        chats={chats}
+        activeChatId={activeChatId}
+        setActiveChatId={setActiveChatId}
+      />
+
+      <div className="chat-room-container">
+        <h2 className="chat-room-title">최근 채팅</h2>
+
+        <ul className="chat-list chat-list-scrollable">
+          {chats.map((chat) => (
+            <li
+              key={chat.id}
+              className="chat-item"
+              onClick={() => navigate(`/chatroom/${chat.id}`)}
+            >
+              <p><strong>{chat.postTitle}</strong></p>
+              <p>상대방: {chat.otherName}</p>
+              <p className="last-message">💬 {chat.lastMessage || '메시지 없음'}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
