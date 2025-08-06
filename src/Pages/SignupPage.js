@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Header from '../components/Header/Header';
 import '../PageStyles/SignupPage.css';
+
+function generateRandomUsername() {
+  const randomNum = Math.floor(1000 + Math.random() * 9000); // 4자리 숫자
+  const randomString = Math.random().toString(36).substring(2, 6); // 랜덤 문자열 (소문자, 숫자)
+  return `user${randomNum}${randomString}`;
+}
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -23,7 +29,24 @@ const SignupPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      const randomUsername = generateRandomUsername();
+      const username = randomUsername;
+
+      await setDoc(doc(db, 'users', user.uid), {
+        username: randomUsername,
+        name: randomUsername,
+        email: email,
+        phone: '',
+        profileImage: '/BlankProfilePicture.png',
+        major1: '',
+        major2: '',
+        role: 'user',
+        createdAt: new Date()
+      });
+
       alert('회원가입 성공!');
       navigate('/login');
     } catch (err) {

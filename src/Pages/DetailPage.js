@@ -56,7 +56,7 @@ const DetailPage = () => {
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [sellerName, setSellerName] = useState('알 수 없음');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,7 +66,17 @@ const DetailPage = () => {
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setPost({ id: docSnap.id, ...docSnap.data() });
+          const postData = { id: docSnap.id, ...docSnap.data() };
+          setPost(postData);
+          const sellerUid = postData.sellerId?.uid || postData.sellerId;
+          if (sellerUid) {
+            const sellerRef = doc(db, 'users', sellerUid);
+            const sellerSnap = await getDoc(sellerRef);
+            if (sellerSnap.exists()) {
+              const sellerData = sellerSnap.data();
+              setSellerName(sellerData.username || '이름 없음');
+            }
+          }
         }
       } catch (err) {
         console.error('데이터 불러오기 실패:', err);
@@ -92,6 +102,7 @@ const DetailPage = () => {
       const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
       console.log("✅ 생성된 chatId:", chatId);
       navigate(`/chat/${chatId}`);
+
     } catch (err) {
       console.error(err);
       alert('신고 처리 중 오류가 발생했습니다.');
@@ -128,7 +139,7 @@ const DetailPage = () => {
           <div className="detail-meta-row">
             <div className="detail-meta-block">
               <div className="meta-label">판매자</div>
-              <div className="meta-value">{post.sellerId?.name || '알 수 없음'}</div>
+              <div className="meta-value">{sellerName}</div>
             </div>
             <div className="detail-meta-block">
               <div className="meta-label">게시일</div>
@@ -147,7 +158,6 @@ const DetailPage = () => {
             }}>채팅</button>
             
             <button className="buy-button" onClick={() => navigate(`/pay/${post.id}`)}>구매</button>
-            
             <button className="report-button" onClick={() => setShowModal(true)}>
               <img src="/report_icon.png" alt="신고" className="report-icon" />
             </button>
