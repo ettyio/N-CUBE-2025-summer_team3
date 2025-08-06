@@ -22,6 +22,7 @@ npm install (npm install 명령어는 프로젝트에서 필요한 **모든 라�
 npm install firebase (firebase와 연동하려면 설치해야 함)
 npm install react-icons react-slider (react-icons, react-slider 라이브러리 설치)
 npm install react-slider --legacy-peer-deps (만약 react-slider가 호환성 문제로 설치가 안된다면)
+npm install -g firebase-tools (배포할 때)
 ```
 
 4. **개발 서버 실행**
