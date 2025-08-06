@@ -7,6 +7,7 @@ import {
 import { db, auth } from '../firebase';
 import '../PageStyles/DetailPage.css';
 import ReportModal from '../components/ReportModal/ReportModal';
+import '../PageStyles/DetailPage.css';
 
 const createOrGetChatRoom = async (currentUserId, sellerId, postId) => {
   const chatQuery = query(
@@ -55,62 +56,53 @@ const DetailPage = () => {
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [sellerName, setSellerName] = useState('알 수 없음');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
+      if (!id) return;
       try {
         const docRef = doc(db, 'posts', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setPost({ id: docSnap.id, ...docSnap.data() });
+          const postData = { id: docSnap.id, ...docSnap.data() };
+          setPost(postData);
+          const sellerUid = postData.sellerId?.uid || postData.sellerId;
+          if (sellerUid) {
+            const sellerRef = doc(db, 'users', sellerUid);
+            const sellerSnap = await getDoc(sellerRef);
+            if (sellerSnap.exists()) {
+              const sellerData = sellerSnap.data();
+              setSellerName(sellerData.username || '이름 없음');
+            }
+          }
         }
       } catch (err) {
         console.error('데이터 불러오기 실패:', err);
       }
     };
-
-    if (id) fetchPost();
+    fetchPost();
   }, [id]);
 
-  const handleChatClick = async () => {
-    const currentUser = auth.currentUser;
-    if (!currentUser || !post) {
-      alert("로그인이 필요하거나 게시글 정보를 불러오지 못했습니다.");
-      return;
-    }
-
-    const currentUserId = currentUser.uid;
-    const sellerId = post.sellerId;
-
-    if (!sellerId) {
-      alert("판매자 정보가 없습니다.");
-      return;
-    }
-
-    if (currentUserId === sellerId) {
-      alert("본인과는 채팅할 수 없습니다.");
-      return;
-    }
-
-    try {
-      const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
-      navigate(`/chatroom/${chatId}`);
-    } catch (err) {
-      console.error("채팅방 이동 실패:", err);
-      alert("채팅방 이동에 실패했습니다.");
-    }
-  };
-
   const handleReport = async ({ target, reason }) => {
+    const currentUserId = auth.currentUser?.uid;
+    const sellerId = post.sellerId?.uid || post.sellerId;
+
     try {
-      // 여기는 백엔드에 신고 전송하는 로직입니다
       await fetch(`/materials/${id}/report`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target, reason }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ target, reason })
       });
       alert('신고가 완료되었습니다.');
+
+      const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
+      console.log("✅ 생성된 chatId:", chatId);
+      navigate(`/chat/${chatId}`);
+
     } catch (err) {
       console.error(err);
       alert('신고 처리 중 오류가 발생했습니다.');
@@ -141,13 +133,13 @@ const DetailPage = () => {
 
           <div className="detail-price">
             <span className="detail-currency">₩</span>
-            <span className="detail-amount">{post.price?.toLocaleString()}</span>
+            <span className="detail-amount">{post.price.toLocaleString()}</span>
           </div>
 
           <div className="detail-meta-row">
             <div className="detail-meta-block">
               <div className="meta-label">판매자</div>
-              <div className="meta-value">{post.sellerId || '알 수 없음'}</div>
+              <div className="meta-value">{sellerName}</div>
             </div>
             <div className="detail-meta-block">
               <div className="meta-label">게시일</div>
@@ -158,7 +150,13 @@ const DetailPage = () => {
           </div>
 
           <div className="detail-buttons">
-            <button className="chat-button" onClick={handleChatClick}>채팅</button>
+            <button className="chat-button" onClick={async () => {
+              const currentUserId = auth.currentUser?.uid;
+              const sellerId = post.sellerId?.uid || post.sellerId;
+              const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
+              navigate(`/chat/${post.id}`);
+            }}>채팅</button>
+            
             <button className="buy-button" onClick={() => navigate(`/pay/${post.id}`)}>구매</button>
             <button className="report-button" onClick={() => setShowModal(true)}>
               <img src="/report_icon.png" alt="신고" className="report-icon" />
