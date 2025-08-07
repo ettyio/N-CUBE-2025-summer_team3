@@ -18,6 +18,7 @@ const CreatePage = () => {
     department: '',
     subject: '',
     professor: '',
+    grade: '',
   });
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const handleSubmit = async () => {
     return;
   }
 
-  const { category, department, subject, professor } = dropdowns;
+  const { category, department, subject, professor, grade } = dropdowns;
 
     if (!category || !department || !subject || !professor) {
     // 개별 누락 항목 안내 메시지
@@ -94,7 +95,7 @@ const handleSubmit = async () => {
       professor: '',
     });
 
-    navigate(`/basic`);
+    navigate(`/main`);
   } catch (error) {
     console.error('등록 실패:', error);
     alert(
@@ -116,8 +117,7 @@ const handleDropdownChange = (type, value) => {
       updated.professor = '';
     } else if (type === 'subject') {
       updated.professor = '';
-    }
-
+    } 
     return updated;
   });
 };
@@ -196,6 +196,20 @@ return (
                   dropdownOptions.professor[dropdowns.subject].map((opt, i) => (
                     <option key={i} value={opt}>{opt}</option>
                 ))}
+              </select>
+
+
+              {/* Grade */}
+              <select
+                value={dropdowns.grade}
+                onChange={(e) => handleDropdownChange('grade', e.target.value)}
+                className="dropdown"
+              >
+                <option value="">학년 선택</option>
+                <option value="1학년">1학년</option>
+                <option value="2학년">2학년</option>
+                <option value="3학년">3학년</option>
+                <option value="4학년">4학년</option>
               </select>
             </div>
           </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SideBar.css';
 import Slider from './Slider';
 
-const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRange, recentTags, onRemoveTag, onClickTag}) => {
+const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRange, recentTags, onRemoveTag, onClickTag, selectedGrades, onGradeChange }) => {
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
@@ -11,6 +11,16 @@ const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRan
        onCategoryChange([]);
     }
   }
+
+const handleGradeChange = (e) => {
+  const { value, checked } = e.target;
+  if (checked) {
+     onGradeChange([...selectedGrades, value]);
+   } else {
+     onGradeChange(selectedGrades.filter((g) => g !== value));
+   }
+  };
+
     return (
         <div className="sidebar">
         <div className="filter-group">
@@ -53,15 +63,21 @@ const Sidebar = ({ selectedCategories, onCategoryChange, priceRange, setPriceRan
 
         <div className="filter-group">
             <h3 className="filter-title">학년</h3>
-            <select>
-            <option>전체</option>
-            <option>1학년</option>
-            <option>2학년</option>
-            <option>3학년</option>
-            <option>4학년</option>
-            </select>
+            <div className="grade-checkboxes">
+            {['1학년', '2학년', '3학년', '4학년'].map((grade) => (
+            <label key={grade}>
+            <input
+                type="checkbox"
+                value={grade}
+                checked={selectedGrades.includes(grade)}
+                onChange={handleGradeChange}
+              />
+              {grade}
+            </label>
+          ))}
         </div>
-        </div>
+       </div>
+    </div>
     );
 };
 

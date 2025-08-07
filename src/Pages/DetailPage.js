@@ -128,7 +128,7 @@ const DetailPage = () => {
           </div>
 
           <span className="detail-category">
-            {post.category} / {post.subject} / {post.professor}
+            {post.category} / {post.subject} / {post.professor} / {post.grade}
           </span>
 
           <div className="detail-price">

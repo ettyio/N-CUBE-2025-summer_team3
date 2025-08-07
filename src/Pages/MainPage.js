@@ -19,6 +19,8 @@ const MainPage = () => {
   const [posts, setPosts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [selectedGrades, setSelectedGrades] = useState([]);
+
 
   const handleSearchLive = (text) => {
   setQuery(text);
@@ -69,8 +71,10 @@ const handleClickTag = (tag) => {
     const matchQuery = post.title.toLowerCase().includes(query.toLowerCase());
     const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(post.category);
     const matchPrice = post.price >= priceRange[0] && post.price <= priceRange[1];
-    return matchQuery && matchCategory && matchPrice;
+    const matchGrade = selectedGrades.length === 0 || (post.grade && selectedGrades.includes(post.grade));
+    return matchQuery && matchCategory && matchPrice &&matchGrade;
   });
+
 
 
 
@@ -84,6 +88,8 @@ const handleClickTag = (tag) => {
         recentTags={recentTags}
         onRemoveTag={handleRemoveTag}
         onClickTag={handleClickTag}
+        selectedGrades={selectedGrades}
+        onGradeChange={setSelectedGrades}
       />
 
       <div className="main-content">
@@ -94,12 +100,14 @@ const handleClickTag = (tag) => {
           onSearchLive={handleSearchLive}
           onSearchSubmit={handleSearchSubmit} 
           />
-          <div className="sort-buttons">
+        <div className="sort-buttons">
+             <div className="sort-buttons">
             <button className="active">기본</button>
             <button>인기순</button>
             <button>최신순</button>
           </div>
-        </div>
+       </div>
+      </div> 
 
 
         <div className="card-grid">
@@ -115,7 +123,7 @@ const handleClickTag = (tag) => {
           ))}
         </div>
       </div>
-    </div>
+    </div> 
   );
 };
 

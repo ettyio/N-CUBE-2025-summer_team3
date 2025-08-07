@@ -74,3 +74,38 @@ select {
   border: 1px solid #ccc;
   font-size: 14px;
 }
+
+/* 체크박스 커스텀 스타일 */
+.sidebar input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin-right: 8px;
+  cursor: pointer;
+  vertical-align: middle;
+  position: relative;
+}
+
+.sidebar input[type="checkbox"]:checked {
+  background-color: #333;
+  border-color: #333;
+}
+
+.sidebar input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: -1px;
+  left: 2px;
+}
+
+.sidebar label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
