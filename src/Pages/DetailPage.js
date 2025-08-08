@@ -151,9 +151,9 @@ const DetailPage = () => {
 
           <div className="detail-buttons">
             <button className="chat-button" onClick={async () => {
-              const currentUserId = auth.currentUser?.uid;
-              const sellerId = post.sellerId?.uid || post.sellerId;
-              {/* const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id); */}
+              // const currentUserId = auth.currentUser?.uid; 
+              // const sellerId = post.sellerId?.uid || post.sellerId;
+              // const chatId = await createOrGetChatRoom(currentUserId, sellerId, post.id);
               navigate(`/chat/${post.id}`);
             }}>채팅</button>
             
