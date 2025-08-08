@@ -4,7 +4,6 @@ import dropdownOptions from '../data/dropdownOptions.js';
 import { useNavigate } from 'react-router-dom';
 
 import { db, auth } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 
@@ -51,7 +50,7 @@ const handleSubmit = async () => {
     return;
   }
 
-  const { category, department, subject, professor, grade } = dropdowns;
+  const { category, department, subject, professor } = dropdowns;
 
     if (!category || !department || !subject || !professor) {
     // 개별 누락 항목 안내 메시지

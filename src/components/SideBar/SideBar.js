@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './SideBar.css';
 import Slider from './Slider';
 

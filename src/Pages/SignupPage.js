@@ -33,7 +33,6 @@ const SignupPage = () => {
       const user = userCredential.user;
 
       const randomUsername = generateRandomUsername();
-      const username = randomUsername;
 
       await setDoc(doc(db, 'users', user.uid), {
         username: randomUsername,

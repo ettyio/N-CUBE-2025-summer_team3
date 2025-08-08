@@ -3,7 +3,6 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useLocation } from 'react-router-dom'; 
 
-import Header from '../components/Header/Header.js';
 import SideBar from '../components/SideBar/SideBar.js';
 import SearchBar from '../components/SearchBar/SearchBar.js';
 import CardItem from '../components/CardItem/CardItem';
@@ -13,7 +12,6 @@ import '../PageStyles/MainPage.css';
 
 const MainPage = () => {
   const location = useLocation(); 
-  const [initializedFromURL, setInitializedFromURL] = useState(false); 
   const [query, setQuery] = useState('');
   const [recentTags, setRecentTags] = useState([]);
   const [posts, setPosts] = useState([]);
