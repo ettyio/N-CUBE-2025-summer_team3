@@ -159,4 +159,58 @@
   cursor: pointer;
 }
 
+/* 반응형 */
+@media (max-width: 1024px) and (min-width: 768px) {
 
+    .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .create-box {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 24px;
+  }
+  .create-box-right {
+    width: 100%;
+    max-width: 100%;
+  }
+  .form-section {
+    gap: 0.5rem;
+  }
+  .image-upload {
+    aspect-ratio: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mypage-sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .mypage-sidebar ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .mypage-sidebar li {
+    width: 40%;
+    margin: 10px;
+    text-align: center;
+  }
+
+  .create-box {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .create-box-right {
+    max-width: 100%;
+    flex: none;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
