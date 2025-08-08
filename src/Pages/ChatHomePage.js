@@ -7,7 +7,7 @@ import ChatSidebar from '../components/ChatSideBar/ChatSideBar'; // ✅ 컴포�
 import '../PageStyles/ChatHomePage.css'
 
 function ChatHomePage() {
-  const [user, setUser] = useState(null);
+  const [, setUser] = useState(null);
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const navigate = useNavigate();
