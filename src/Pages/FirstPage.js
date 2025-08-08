@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header/Header.js';
 import MainSection from '../components/MainSection/MainSection';
 import Footer from '../components/Footer/Footer';
-import FixedButton from '../components/FixedButton/FixedButton';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import '../PageStyles/FirstPage.css';

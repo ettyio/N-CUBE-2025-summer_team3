@@ -1,5 +1,4 @@
 // components/SearchBar/SearchBar.js
-import React, { useState } from 'react';
 import './SearchBar.css';
 import { FaSearch } from 'react-icons/fa'; // 아이콘 사용
 
